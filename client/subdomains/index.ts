@@ -1,58 +1,41 @@
 import { SubdomainModule } from "./types";
-import AmityOnlineMbaPage from "./amityonlinemba/page";
-import AmityOnlineMbaThankYou from "./amityonlinemba/thank-you";
-import { metadata as amityOnlineMbaMetadata } from "./amityonlinemba/metadata";
 
-import AmityOnlineMcaPage from "./amityonlinemca/page";
-import AmityOnlineMcaThankYou from "./amityonlinemca/thank-you";
-import { metadata as amityOnlineMcaMetadata } from "./amityonlinemca/metadata";
+import SapPage from "./sap/page";
+import SapThankYou from "./sap/thank-you";
+import { metadata as sapMetadata } from "./sap/metadata";
 
-import AmityOnlineBbaPage from "./amityonlinebba/page";
-import AmityOnlineBbaThankYou from "./amityonlinebba/thank-you";
-import { metadata as amityOnlineBbaMetadata } from "./amityonlinebba/metadata";
+import DataSciencePage from "./data-science/page";
+import DataScienceThankYou from "./data-science/thank-you";
+import { metadata as dataScienceMetadata } from "./data-science/metadata";
 
-import OnlineManipalMbaPage from "./onlinemanipalmba/page";
-import OnlineManipalMbaThankYou from "./onlinemanipalmba/thank-you";
-import { metadata as onlineManipalMbaMetadata } from "./onlinemanipalmba/metadata";
+import FdePage from "./fde/page";
+import FdeThankYou from "./fde/thank-you";
+import { metadata as fdeMetadata } from "./fde/metadata";
 
-import OnlineManipalMcaPage from "./onlinemanipalmca/page";
-import OnlineManipalMcaThankYou from "./onlinemanipalmca/thank-you";
-import { metadata as onlineManipalMcaMetadata } from "./onlinemanipalmca/metadata";
-
-import OnlineManipalBbaPage from "./onlinemanipalbba/page";
-import OnlineManipalBbaThankYou from "./onlinemanipalbba/thank-you";
-import { metadata as onlineManipalBbaMetadata } from "./onlinemanipalbba/metadata";
+import AiMlPage from "./ai-ml/page";
+import AiMlThankYou from "./ai-ml/thank-you";
+import { metadata as aiMlMetadata } from "./ai-ml/metadata";
 
 export const SUBDOMAIN_REGISTRY: Record<string, SubdomainModule> = {
-  amityonlinemba: {
-    Component: AmityOnlineMbaPage,
-    ThankYouComponent: AmityOnlineMbaThankYou,
-    metadata: amityOnlineMbaMetadata,
+  sap: {
+    Component: SapPage,
+    ThankYouComponent: SapThankYou,
+    metadata: sapMetadata,
   },
-  amityonlinemca: {
-    Component: AmityOnlineMcaPage,
-    ThankYouComponent: AmityOnlineMcaThankYou,
-    metadata: amityOnlineMcaMetadata,
+  "data-science": {
+    Component: DataSciencePage,
+    ThankYouComponent: DataScienceThankYou,
+    metadata: dataScienceMetadata,
   },
-  amityonlinebba: {
-    Component: AmityOnlineBbaPage,
-    ThankYouComponent: AmityOnlineBbaThankYou,
-    metadata: amityOnlineBbaMetadata,
+  fde: {
+    Component: FdePage,
+    ThankYouComponent: FdeThankYou,
+    metadata: fdeMetadata,
   },
-  onlinemanipalmba: {
-    Component: OnlineManipalMbaPage,
-    ThankYouComponent: OnlineManipalMbaThankYou,
-    metadata: onlineManipalMbaMetadata,
-  },
-  onlinemanipalmca: {
-    Component: OnlineManipalMcaPage,
-    ThankYouComponent: OnlineManipalMcaThankYou,
-    metadata: onlineManipalMcaMetadata,
-  },
-  onlinemanipalbba: {
-    Component: OnlineManipalBbaPage,
-    ThankYouComponent: OnlineManipalBbaThankYou,
-    metadata: onlineManipalBbaMetadata,
+  "ai-ml": {
+    Component: AiMlPage,
+    ThankYouComponent: AiMlThankYou,
+    metadata: aiMlMetadata,
   },
 };
 
