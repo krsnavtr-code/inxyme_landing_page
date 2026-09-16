@@ -51,30 +51,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-P7CSPHW5');`,
           }}
         />
-        {/* End Google Tag Manager */}
-
-        {/* Start of Tawk.to Script */}
-        <Script
-          id="tawk-to-script"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: `
-              var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-              (function(){
-              var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-              s1.async=true;
-              s1.src='https://embed.tawk.to/6aa7d3402670053445c7aeaf/1k2fp2dk9';
-              s1.charset='UTF-8';
-              s1.setAttribute('crossorigin','*');
-              s0.parentNode.insertBefore(s1,s0);
-              })();
-            `,
-          }}
-        />
-        {/* End of Tawk.to Script */}
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-P7CSPHW5"
