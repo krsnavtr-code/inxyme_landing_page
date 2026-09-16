@@ -53,20 +53,20 @@ export default function ProgramLandingTemplate({
 
   const programName = content.programName || "Online MBA 2026";
   const universityName = content.universityName || "Manipal University Online";
-  const badge = content.badge || "ADMISSIONS OPEN FOR UPCOMING SESSION";
+  const badge = content.badge || "ENROLLMENTS OPEN FOR UPCOMING BATCH";
   const heroTitle =
     content.heroTitle ||
     `${universityName} ${programName} – Fees, Eligibility, Specialisations & Admission Guide`;
   const heroSubtitle =
     content.heroSubtitle ||
-    `Explore ${universityName} ${programName} fees, eligibility, specialisations, curriculum, learning format and admission guidance. Get help from a College Vihar counsellor.`;
+    `Explore ${universityName} ${programName} curriculum, fees, certification details, and career outcomes. Get expert guidance from an Inxyme course advisor.`;
   const heroFacts: string[] = content.heroFacts || [
-    "2-Year MBA Program",
+    "Industry-Recognised Certification",
     "100% Online Learning",
-    "4 Semesters",
-    "Industry-Aligned Curriculum",
-    "Career Support*",
-    "Flexible Learning Format",
+    "Live + Recorded Sessions",
+    "Hands-On Projects",
+    "Placement Assistance*",
+    "Flexible Learning Schedule",
   ];
   const navLinks: { label: string; href: string }[] = content.navLinks || [
     { label: "Overview", href: "#overview" },
@@ -100,124 +100,124 @@ export default function ProgramLandingTemplate({
       {
         title: "Career Support",
         description:
-          "Access career support and placement assistance offered through the university career ecosystem.",
+          "Access placement assistance, resume building, and mock interview support through the Inxyme career ecosystem.",
       },
       {
-        title: "Online University Degree",
-        description: `The MBA is offered by ${universityName}. Verify current eligibility, fees and admission conditions before enrolment.`,
+        title: "Industry Certification",
+        description: `The ${programName} certification is recognised by industry partners. Verify current accreditation details before enrolling.`,
       },
     ];
   const overview: { label: string; value: string }[] = content.overview || [
-    { label: "Degree", value: "Master of Business Administration (MBA)" },
-    { label: "University", value: universityName },
-    { label: "Duration", value: "2 Years / 4 Semesters" },
-    { label: "Mode", value: "100% Online" },
+    { label: "Course", value: programName },
+    { label: "Provider", value: universityName },
+    { label: "Duration", value: "3–6 Months" },
+    { label: "Mode", value: "100% Online (Live + Recorded)" },
     {
       label: "Eligibility",
-      value: "Bachelor's degree as per current university rules",
+      value: "10+2 or Graduate — Anyone can apply",
     },
-    { label: "Program Fee", value: content.feeAmount || "Rs. 2,50,000*" },
-    { label: "Placement Assistance", value: "Career Support*" },
+    { label: "Course Fee", value: content.feeAmount || "Contact Us" },
+    { label: "Placement Assistance", value: "Yes — Resume & Mock Interviews" },
   ];
   const specialisations: { title: string; description: string }[] =
     content.specialisations || [
       {
-        title: "Data Analytics",
+        title: "SAP",
         description:
-          "Explore analytics, data-driven decision-making and business intelligence concepts.",
+          "Master SAP modules including SAP S/4HANA, SAP FICO, SAP MM, and more with hands-on project work.",
+      },
+      {
+        title: "Data Science",
+        description:
+          "Learn Python, Machine Learning, Data Visualization, and real-world data analysis pipelines.",
+      },
+      {
+        title: "AI & Machine Learning",
+        description:
+          "Explore deep learning, NLP, computer vision, and production-grade AI model deployment.",
       },
       {
         title: "Digital Marketing",
         description:
-          "Build knowledge around digital marketing, branding and customer engagement.",
+          "Build skills in SEO, SEM, social media marketing, email campaigns, and analytics.",
       },
       {
-        title: "Finance",
+        title: "Cloud Computing",
         description:
-          "Develop knowledge of financial management, investment analysis and corporate finance.",
+          "Get hands-on with AWS, Azure, and GCP — covering cloud architecture, DevOps, and security.",
       },
       {
-        title: "Operations",
+        title: "Business Analytics",
         description:
-          "Focus on supply chain, operations strategy and process improvement.",
-      },
-      {
-        title: "Human Resource Management",
-        description:
-          "Explore talent management, organisational behaviour and HR strategy.",
-      },
-      {
-        title: "General MBA",
-        description:
-          "Explore the core MBA curriculum covering management, leadership and business fundamentals.",
+          "Learn Power BI, Tableau, SQL, and Excel for data-driven business decision-making.",
       },
     ];
   const curriculum: { title: string; description: string }[] =
     content.curriculum || [
       {
-        title: "Semester 1",
+        title: "Module 1 — Fundamentals",
         description:
-          "Principles of Management, Organisational Behaviour, Business Economics, Financial Accounting and Professional Communication.",
+          "Core concepts, tools setup, and foundational theory with guided exercises.",
       },
       {
-        title: "Semester 2",
+        title: "Module 2 — Core Skills",
         description:
-          "Marketing Management, Human Resource Management, Operations Management, Research Methodology and electives.",
+          "Hands-on skill building through industry datasets, case studies, and live projects.",
       },
       {
-        title: "Semester 3",
+        title: "Module 3 — Advanced Topics",
         description:
-          "Strategic Management, Business Analytics, Leadership and electives such as Digital Marketing and Data Analytics.",
+          "Advanced techniques, integrations, and real-world application scenarios.",
       },
       {
-        title: "Semester 4",
+        title: "Module 4 — Capstone & Certification",
         description:
-          "Final-semester subjects, projects/evaluation and specialisation components as applicable to the current program structure.",
+          "Capstone project, assessment, and certification awarded upon successful completion.",
       },
     ];
-  const feeAmount = content.feeAmount || "Rs. 2,50,000*";
+  const feeAmount = content.feeAmount || "Contact Us for Pricing";
   const feeDescription =
     content.feeDescription ||
-    "Listed program fee. Current official information also shows semester-wise, annual and no-cost EMI options, subject to applicable terms.";
+    "Flexible payment options available including EMI. Contact our course advisor for the latest fee and batch pricing.";
   const eligibility: { title: string; description: string }[] =
     content.eligibility || [
       {
-        title: "Bachelor's Degree",
+        title: "10+2 or Graduate",
         description:
-          "A bachelor's degree from a recognised university may be eligible for the MBA program.",
+          "Anyone with a 10+2 or bachelor's degree can enrol. No prior experience required for most courses.",
       },
       {
-        title: "Work Experience",
+        title: "Working Professionals",
         description:
-          "Some specialisations may prefer or require work experience as per current criteria.",
+          "Ideal for professionals looking to upskill, switch careers, or earn an industry-recognised certification.",
       },
       {
-        title: "Other Qualifications",
+        title: "Students & Freshers",
         description:
-          "Eligibility details vary by intake and specialisation. Verify the latest rules before applying.",
+          "Final-year students and freshers can join to build job-ready skills before entering the workforce.",
       },
     ];
   const career: { title: string; description: string }[] = content.career || [
     {
+      title: "SAP Consultant",
+      description: "High-demand ERP implementation and consulting roles.",
+    },
+    {
+      title: "Data Analyst",
+      description: "Data interpretation and business intelligence roles.",
+    },
+    {
+      title: "AI/ML Engineer",
+      description: "Machine learning model development and deployment roles.",
+    },
+    {
+      title: "Cloud Architect",
+      description: "Cloud infrastructure design and DevOps leadership roles.",
+    },
+    { title: "Digital Marketer", description: "SEO, SEM, and growth marketing roles." },
+    {
       title: "Business Analyst",
-      description: "Data and process analysis opportunities.",
-    },
-    {
-      title: "Marketing Manager",
-      description: "Brand and marketing strategy roles.",
-    },
-    {
-      title: "Financial Analyst",
-      description: "Finance and investment analysis opportunities.",
-    },
-    {
-      title: "Operations Manager",
-      description: "Operations and supply-chain leadership roles.",
-    },
-    { title: "HR Manager", description: "Talent and people-management roles." },
-    {
-      title: "Product Manager",
-      description: "Product strategy and cross-functional leadership roles.",
+      description: "Data-driven decision-making and strategy roles.",
     },
   ];
   const admissionSteps: {
@@ -227,71 +227,71 @@ export default function ProgramLandingTemplate({
   }[] = content.admissionSteps || [
     {
       number: "01",
-      title: "Select Program",
-      description: "Choose the MBA program and applicable specialisation.",
+      title: "Choose Your Course",
+      description: "Browse Inxyme's catalog and pick the certification course that matches your career goals.",
     },
     {
       number: "02",
-      title: "Complete Application",
-      description: "Fill out the required application information.",
+      title: "Register & Enroll",
+      description: "Fill out the enrollment form online in minutes — no entrance exam required.",
     },
     {
       number: "03",
-      title: "Pay Program Fee",
+      title: "Pay Course Fee",
       description:
-        "Complete applicable payment through the approved university process.",
+        "Pay securely online with EMI options available. Flexible pricing plans to suit every learner.",
     },
     {
       number: "04",
-      title: "Submit & Register",
+      title: "Start Learning",
       description:
-        "Submit the application and complete registration as required.",
+        "Get instant access to live sessions, recorded lectures, projects, and your personal course dashboard.",
     },
   ];
   const faqs: { question: string; answer: string }[] = content.faqs || [
     {
-      question: `What is ${universityName} ${programName}?`,
-      answer: `It is a 2-year online Master of Business Administration program offered by ${universityName}.`,
+      question: `What is the ${programName} course?`,
+      answer: `It is a job-ready certification course offered by ${universityName} through Inxyme's e-learning platform, covering industry-relevant tools and real-world projects.`,
     },
     {
-      question: "What is the duration of the MBA?",
-      answer: "The standard program is listed as 2 years / 4 semesters.",
+      question: "How long is the course?",
+      answer: "Most certification courses range from 3 to 6 months with flexible scheduling options.",
     },
     {
-      question: "What is the current MBA fee?",
-      answer: `The standard MBA program is currently listed at ${feeAmount}. Fees and offers can change, so confirm the latest fee before enrolment.`,
+      question: "What is the course fee?",
+      answer: `The course fee is ${feeAmount}. EMI options are available. Contact our advisor for the latest pricing.`,
     },
     {
-      question: "Who can apply?",
+      question: "Who can enroll?",
       answer:
-        "Eligibility can include bachelor's degree holders from recognised universities subject to current rules.",
+        "Anyone with a 10+2 or bachelor's degree can enroll. No prior experience is needed for most courses.",
     },
     {
-      question: "Is the MBA completely online?",
+      question: "Are the sessions live or recorded?",
       answer:
-        "The program is offered in an online learning format. Verify the current delivery structure with the university.",
+        "Both! You get live instructor-led sessions plus recorded video lectures you can access anytime.",
     },
     {
-      question: "Does the university provide placement assistance?",
+      question: "Will I get a certificate after completion?",
       answer:
-        "The current program page advertises career support. This does not guarantee employment, salary or a particular job outcome.",
+        "Yes, you will receive an industry-recognised certification upon successfully completing the course and capstone project.",
     },
   ];
   const ctaTitle =
-    content.ctaTitle || `Ready to Explore ${universityName} ${programName}?`;
+    content.ctaTitle || `Ready to Start Your ${programName} Journey?`;
   const ctaText =
     content.ctaText ||
-    "Get guidance on eligibility, fees, specialisations and the admission process.";
+    "Get expert guidance on course curriculum, fees, certifications, and career opportunities. Enroll today.";
   const footerDisclaimer =
     content.footerDisclaimer ||
-    "College Vihar is an independent education counselling and admission guidance platform. This page is created for informational and counselling purposes and is not the official website of the university. Program eligibility, fees, admissions, enrollment and other academic decisions are determined by the university. College Vihar does not guarantee admission, employment, salary or placement outcomes.";
+    "Inxyme is an independent e-learning platform offering job-ready certification courses in SAP, Data Science, AI/ML, Digital Marketing, Cloud Computing, and more. This page is created for informational purposes and guidance on the listed course. Inxyme does not guarantee employment, salary, or placement outcomes.";
 
   return (
     <div className="font-sans text-[#17233d]">
       <header className="sticky top-0 z-50 bg-white border-b border-[#e3e8f0]">
         <div className="w-[min(1180px,92%)] mx-auto h-[68px] flex items-center justify-between">
           <a className="text-2xl font-extrabold text-[#1565c0]" href="/">
-            College<span className="text-[#ef3e35]">Vihar</span>
+            Inx<span className="text-[#ef3e35]">yme</span>
           </a>
           <nav className="hidden md:flex gap-6 text-sm font-semibold items-center">
             {navLinks.map((link) => (
@@ -338,13 +338,13 @@ export default function ProgramLandingTemplate({
                   className="inline-block bg-[#f7a51c] text-[#111] px-5 py-3 rounded-full font-extrabold text-sm"
                   href="#counselling"
                 >
-                  Get Free MBA Counselling
+                  Get Free Course Counselling
                 </a>
                 <a
                   className="inline-block border-2 border-white text-white px-5 py-3 rounded-full font-extrabold text-sm"
                   href="#overview"
                 >
-                  Explore Program
+                  Explore Curriculum
                 </a>
               </div>
             </div>
@@ -354,15 +354,15 @@ export default function ProgramLandingTemplate({
               className="bg-white text-[#17233d] p-6 rounded-2xl shadow-lg"
             >
               <h2 className="text-center text-2xl font-bold mb-1">
-                Get Free MBA Counselling
+                Get Free Course Counselling
               </h2>
               <p className="text-center text-[#667085] text-sm mb-4">
-                Get guidance on eligibility, specialisations and admission.
+                Get expert guidance on curriculum, fees, certifications & career outcomes.
               </p>
 
               {status === "success" ? (
                 <div className="text-center py-6 text-green-600 font-semibold">
-                  Thank you! Our counsellor will reach out soon.
+                  Thank you! Our course advisor will reach out to you shortly.
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-3">
@@ -435,7 +435,7 @@ export default function ProgramLandingTemplate({
                   >
                     {status === "submitting"
                       ? "Submitting..."
-                      : "Request Counselling"}
+                      : "Get Free Counselling"}
                   </button>
                   {status === "error" && (
                     <p className="text-red-600 text-sm text-center">
@@ -444,8 +444,8 @@ export default function ProgramLandingTemplate({
                   )}
                   <p className="text-xs text-[#687386] text-center">
                     By submitting this form, you agree to be contacted by
-                    College Vihar regarding education counselling and admission
-                    guidance.
+                    Inxyme regarding course enrollment, curriculum details, and
+                    career support.
                   </p>
                 </form>
               )}
@@ -726,7 +726,7 @@ export default function ProgramLandingTemplate({
             <strong>Disclaimer:</strong> {footerDisclaimer}
           </div>
           <p className="text-center text-xs text-[#667085]">
-            &copy; 2026 College Vihar. All rights reserved.
+            &copy; 2026 Inxyme. All rights reserved.
           </p>
         </div>
       </footer>

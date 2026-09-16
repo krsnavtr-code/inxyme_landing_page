@@ -17,10 +17,10 @@ export default function AdmissionProcessSection({
             Simple 4-Step Process
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
-            Seamless Online Admission Process
+            Seamless Online Enrollment Process
           </h2>
           <p className="text-sm sm:text-base text-slate-600 mt-2">
-            Complete your application and document verification 100% online from home with step-by-step assistance from College Vihar.
+            Complete your course enrollment and document verification 100% online from home with step-by-step assistance from Inxyme.
           </p>
         </div>
 

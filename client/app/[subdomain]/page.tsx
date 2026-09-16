@@ -27,7 +27,7 @@ export async function generateMetadata({
 
   if (!subdomainModule) {
     return {
-      title: "Page Not Found | College Vihar",
+      title: "Page Not Found | Inxyme",
       description: "The requested subdomain page does not exist.",
     };
   }

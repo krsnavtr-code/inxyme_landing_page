@@ -50,8 +50,8 @@ export default function LeadForm({
   subdomain,
   universityName,
   programName,
-  formTitle = "Get Free Admission Counselling",
-  formSubtitle = "Check your eligibility, fees, scholarships & available batches",
+  formTitle = "Get Free Course Counselling",
+  formSubtitle = "Check course details, fees, certification & upcoming batch dates",
   buttonText = "Request Free Call Back",
 }: LeadFormProps) {
   const router = useRouter();
@@ -118,7 +118,7 @@ export default function LeadForm({
       <div className="text-center mb-6">
         <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 text-amber-800 text-xs font-bold rounded-full border border-amber-200 mb-2">
           <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-          Limited Seats for 2026 Batch
+          Limited Seats for Next Batch
         </span>
         <h3 className="text-xl md:text-2xl font-black tracking-tight text-[#102d63]">
           {formTitle}
@@ -132,12 +132,12 @@ export default function LeadForm({
             ✓
           </div>
           <h4 className="text-xl font-bold text-slate-800">
-            Thank You for Inquiring!
+            Thank You for Your Interest!
           </h4>
           <p className="text-sm text-slate-600 max-w-sm mx-auto">
-            Our Senior Education Counsellor for{" "}
-            <strong>{universityName}</strong> will call you shortly to assist
-            with fees, eligibility, and scholarship options.
+            Our Course Advisor for{" "}
+            <strong>{programName}</strong> will call you shortly to help you
+            with the curriculum, fees, and batch options.
           </p>
           <button
             onClick={() => setStatus("idle")}

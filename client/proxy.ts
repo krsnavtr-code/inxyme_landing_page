@@ -7,7 +7,7 @@ export function proxy(request: NextRequest) {
   const rootDomain = (
     process.env.ROOT_DOMAIN ||
     process.env.NEXT_PUBLIC_ROOT_DOMAIN ||
-    "collegevihar.com"
+    "inxyme.com"
   ).toLowerCase();
 
   // Check if current hostname is the root domain, www, bare IP, or plain localhost
@@ -31,7 +31,7 @@ export function proxy(request: NextRequest) {
     });
   }
 
-  // Check if host is a valid subdomain (*.collegevihar.com, *.localhost, *.local)
+  // Check if host is a valid subdomain (*.inxyme.com, *.localhost, *.local)
   const isSubdomain =
     hostname.endsWith(`.${rootDomain}`) ||
     hostname.endsWith(".localhost") ||

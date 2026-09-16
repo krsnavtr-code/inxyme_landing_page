@@ -9,16 +9,16 @@ export default function NotFound() {
           Page Not Found
         </h1>
         <p className="text-sm text-slate-600 leading-relaxed">
-          This portal only serves dedicated university program subdomains.
+          This portal only serves dedicated certification course subdomains.
           Please visit using a valid subdomain (e.g.{" "}
           <code className="bg-slate-100 text-[#1565c0] px-2 py-0.5 rounded-md font-mono text-xs">
-            amityonlinemba.collegevihar.com
+            sap.inxyme.com
           </code>
           ).
         </p>
         <div className="pt-2">
           <span className="text-xs text-slate-400">
-            &copy; {new Date().getFullYear()} College Vihar
+            &copy; {new Date().getFullYear()} Inxyme
           </span>
         </div>
       </div>

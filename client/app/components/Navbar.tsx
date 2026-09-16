@@ -34,7 +34,7 @@ export default function Navbar({
             href="#top"
             className="flex items-center text-2xl font-black tracking-tight text-[#1565c0]"
           >
-            College<span className="text-[#ef3e35]">Vihar</span>
+            Inx<span className="text-[#ef3e35]">yme</span>
           </a>
           <span className="hidden sm:inline-block h-6 w-px bg-slate-200"></span>
           <span className="hidden sm:inline-block text-xs font-semibold uppercase tracking-wider text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md">

@@ -52,12 +52,12 @@ async function sendLeadNotificationToAdmin(leadData) {
   } = leadData;
 
   const adminEmail = process.env.ADMIN_EMAIL || "anand24h@gmail.com";
-  const fromName = process.env.MAIL_FROM_NAME || "Collegevihar";
+  const fromName = process.env.MAIL_FROM_NAME || "Inxyme";
   const fromAddress =
-    process.env.MAIL_FROM_ADDRESS || "noreply@collegevihar.com";
+    process.env.MAIL_FROM_ADDRESS || "noreply@inxyme.com";
 
   const cleanPhone = String(phone || "").replace(/[^0-9]/g, "");
-  const subject = `🔥 New Lead: ${name} | ${program || "Online Program"} (${subdomain})`;
+  const subject = `🔥 New Lead: ${name} | ${program || "Certification Course"} (${subdomain})`;
 
   const htmlContent = `
     <!DOCTYPE html>
@@ -84,8 +84,8 @@ async function sendLeadNotificationToAdmin(leadData) {
     <body>
       <div class="container">
         <div class="header">
-          <h1>New Admission Lead Captured</h1>
-          <p>College Vihar Subdomain Lead Capture</p>
+          <h1>New Course Enquiry Lead Captured</h1>
+          <p>Inxyme E-Learning Platform — Course Enquiry</p>
         </div>
         <div class="content">
           <span class="badge">Subdomain: ${subdomain}</span>
@@ -136,7 +136,7 @@ async function sendLeadNotificationToAdmin(leadData) {
           </div>
         </div>
         <div class="footer">
-          This is an automated real-time lead notification from College Vihar Subdomain Platform.
+          This is an automated real-time lead notification from the Inxyme E-Learning Platform.
         </div>
       </div>
     </body>

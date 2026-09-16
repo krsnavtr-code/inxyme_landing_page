@@ -23,7 +23,7 @@ app.get("/health", (req, res) => {
 // Database connection check
 db.getConnection()
   .then((connection) => {
-    console.log("Connected to Hostinger MySQL database");
+    console.log("Connected to Hostinger MySQL database (inxyme.com)");
     connection.release();
   })
   .catch((err) => {

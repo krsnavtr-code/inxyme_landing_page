@@ -19,9 +19,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "College Vihar - Online Degree Program Guidance",
+  title: "Inxyme - Job-Ready Certification Courses | SAP, Data Science, AI/ML",
   description:
-    "Explore top online MBA, MCA, and BBA programs from premier universities with College Vihar.",
+    "Inxyme is a premier e-learning platform offering job-ready certification courses in SAP, Data Science, AI/ML, and more. Start your career transformation today.",
   icons: {
     icon: "/icon.webp",
   },

@@ -7,7 +7,7 @@ const content = {
     heroTitle:
         'Manipal Online MBA 2026 – Fees, Eligibility, Specialisations & Admission Guide',
     heroSubtitle:
-        'Explore Manipal Online MBA fees, eligibility, specialisations, curriculum, learning format and admission guidance. Get help from a College Vihar counsellor.',
+        'Explore Manipal Online MBA curriculum, fees, certification details, and career outcomes. Get expert guidance from an Inxyme course advisor.',
     heroFacts: [
         '2-Year MBA Program',
         '100% Online Learning',
@@ -30,12 +30,12 @@ const content = {
     ctaText:
         'Get guidance on eligibility, fees, specialisations and the admission process.',
     footerDisclaimer:
-        "College Vihar is an independent education counselling and admission guidance platform. This page is created for informational and counselling purposes and is not the official website of Manipal University. Program eligibility, fees, admissions, enrollment and other academic decisions are determined by the university. College Vihar does not guarantee admission, employment, salary or placement outcomes.",
+        "Inxyme is an independent e-learning platform offering job-ready certification courses. This page is created for informational purposes regarding the Manipal Online MBA program. Inxyme does not guarantee employment, salary, or placement outcomes.",
 };
 
-const metaTitle = 'Manipal Online MBA 2026 – Fees, Eligibility, Specialisations & Admission Guide | College Vihar';
+const metaTitle = 'Manipal Online MBA 2026 – Fees, Eligibility, Specialisations & Admission Guide | Inxyme';
 const metaDescription =
-    'Explore Manipal Online MBA 2026 fees, eligibility, specialisations, curriculum and admission guidance. Get free counselling from College Vihar.';
+    'Explore Manipal Online MBA 2026 curriculum, fees, certification and career outcomes. Get free counselling from Inxyme.';
 
 module.exports = async function () {
     await db.execute(
