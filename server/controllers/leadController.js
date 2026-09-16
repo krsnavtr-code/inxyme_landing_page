@@ -22,7 +22,7 @@ exports.captureLead = async (req, res) => {
     });
   }
 
-  const cleanSubdomain = (subdomain || "amityonlinemba").toLowerCase().trim();
+  const cleanSubdomain = (subdomain || "sap").toLowerCase().trim();
 
   try {
     // 1. Insert lead record into database
