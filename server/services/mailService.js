@@ -49,7 +49,10 @@ async function sendLeadNotificationToAdmin(leadData) {
     program,
     subdomain,
     source,
+    timeSlot,
+    time_slot,
   } = leadData;
+  const preferredTime = timeSlot || time_slot;
 
   const adminEmail = process.env.ADMIN_EMAIL || "anand24h@gmail.com";
   const fromName = process.env.MAIL_FROM_NAME || "Inxyme";
@@ -114,14 +117,24 @@ async function sendLeadNotificationToAdmin(leadData) {
               <td class="label">Specialisation:</td>
               <td class="value">${specialisation || "Not Specified / General"}</td>
             </tr>
+            ${preferredTime ? `
+            <tr>
+              <td class="label" style="color: #1565c0;">Preferred Free Time:</td>
+              <td class="value" style="color: #1565c0; font-weight: bold;">${preferredTime}</td>
+            </tr>
+            ` : ''}
+            ${qualification && !preferredTime ? `
             <tr>
               <td class="label">Highest Qualification:</td>
-              <td class="value">${qualification || "N/A"}</td>
+              <td class="value">${qualification}</td>
             </tr>
+            ` : ''}
+            ${state ? `
             <tr>
               <td class="label">State:</td>
-              <td class="value">${state || "N/A"}</td>
+              <td class="value">${state}</td>
             </tr>
+            ` : ''}
             <tr>
               <td class="label">Form Source:</td>
               <td class="value">${source || "Landing Page"}</td>

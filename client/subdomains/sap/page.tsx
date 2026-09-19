@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, FormEvent, ReactNode } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import {
   FaCertificate,
@@ -52,6 +52,9 @@ const WHATSAPP_URL =
   "https://wa.me/919266585858?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20Inxyme%20SAP%20training%20and%20certification%20courses.";
 
 const PHONE_NUMBER = "+919266585858";
+
+const logoImg =
+  "https://www.inxyme.com/api/upload/file/final-logo-png-6483.png";
 
 const sapCourses = [
   {
@@ -380,34 +383,13 @@ const techCompanies = [
   { name: "Zomato", logo: "/images/Company%20logos/Zomato_Logo.svg" },
 ];
 
-const INDIAN_STATES = [
-  "Delhi NCR",
-  "Maharashtra",
-  "Karnataka",
-  "Uttar Pradesh",
-  "Rajasthan",
-  "Gujarat",
-  "Haryana",
-  "Punjab",
-  "Madhya Pradesh",
-  "West Bengal",
-  "Tamil Nadu",
-  "Telangana",
-  "Andhra Pradesh",
-  "Kerala",
-  "Other / Outside India",
-];
-
-const QUALIFICATIONS = [
-  "10+2 / Intermediate",
-  "B.Com / Finance / Commerce",
-  "BBA / MBA",
-  "B.Tech / B.E. / Engineering",
-  "BCA / MCA / B.Sc IT",
-  "BA / Humanities",
-  "Graduate / Post Graduate",
-  "Working Professional",
-  "Other",
+const TIME_SLOTS = [
+  "9:00 AM - 12:00 PM",
+  "12:00 PM - 2:00 PM",
+  "2:00 PM - 4:00 PM",
+  "4:00 PM - 7:00 PM",
+  "7:00 PM - 9:00 PM",
+  "9:00 PM - 11:00 PM",
 ];
 
 export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
@@ -429,8 +411,7 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
     phone: "",
     email: "",
     courseInterest: "SAP S/4HANA & Global Modules",
-    state: "Delhi NCR",
-    qualification: "Graduate / Post Graduate",
+    timeSlot: "9:00 AM - 12:00 PM",
     agreedToTerms: true,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -443,8 +424,7 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
     phone: "",
     email: "",
     courseInterest: "",
-    state: "Delhi NCR",
-    qualification: "Graduate / Post Graduate",
+    timeSlot: "9:00 AM - 12:00 PM",
     agreedToTerms: true,
   });
   const [modalSubmitting, setModalSubmitting] = useState(false);
@@ -495,8 +475,8 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
       name: formData.name.trim(),
       email: formData.email.trim(),
       phone: formData.phone.trim(),
-      state: formData.state,
-      qualification: formData.qualification,
+      timeSlot: formData.timeSlot,
+      time_slot: formData.timeSlot,
       subdomain,
       program: formData.courseInterest || "SAP Certification Course",
       university: "Inxyme E-Learning",
@@ -534,8 +514,8 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
       name: modalFormData.name.trim(),
       email: modalFormData.email.trim(),
       phone: modalFormData.phone.trim(),
-      state: modalFormData.state,
-      qualification: modalFormData.qualification,
+      timeSlot: modalFormData.timeSlot,
+      time_slot: modalFormData.timeSlot,
       subdomain,
       program: modalFormData.courseInterest || modalCourse,
       university: "Inxyme E-Learning",
@@ -624,20 +604,21 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
             <a
               href="#top"
               onClick={(e) => scrollTo(e, "#top")}
-              className="flex-shrink-0 flex items-center gap-1.5 text-2xl font-black text-[#1565c0] tracking-tight"
+              className="text-lg font-bold text-blue-600 dark:text-blue-400"
             >
-              Inx<span className="text-[#ef3e35]">yme</span>
-              <span className="text-[10px] uppercase font-bold tracking-widest bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md border border-blue-200/60 ml-1.5 hidden sm:inline-block">
-                SAP Learning
-              </span>
-            </a>
+              <img
+                src={logoImg}
+                alt="inxyme – Your Online Learning Partner"
+                className="h-[68px] rounded"
+              />
+            </a>  
 
             {/* Desktop Navigation Links */}
             <nav className="hidden md:flex items-center gap-1 lg:gap-2">
               {[
                 { label: "Courses", href: "#sap-courses" },
                 { label: "Why Inxyme", href: "#why-sap" },
-                { label: "Learning Path", href: "#learning-path" },
+                { label: "Learning Path", href: "#learning-path" }, 
                 { label: "Careers", href: "#careers" },
                 { label: "Reviews", href: "#reviews" },
                 { label: "FAQ", href: "#faq" },
@@ -936,48 +917,24 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
                       </select>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-xs font-semibold text-slate-700 mb-1">
-                          Current State
-                        </label>
-                        <select
-                          name="state"
-                          value={formData.state}
-                          onChange={(e) =>
-                            setFormData({ ...formData, state: e.target.value })
-                          }
-                          className="w-full px-3 py-2.5 text-xs border border-slate-300 rounded-xl bg-white text-slate-800 outline-none"
-                        >
-                          {INDIAN_STATES.map((s) => (
-                            <option key={s} value={s}>
-                              {s}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-xs font-semibold text-slate-700 mb-1">
-                          Qualification
-                        </label>
-                        <select
-                          name="qualification"
-                          value={formData.qualification}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              qualification: e.target.value,
-                            })
-                          }
-                          className="w-full px-3 py-2.5 text-xs border border-slate-300 rounded-xl bg-white text-slate-800 outline-none"
-                        >
-                          {QUALIFICATIONS.map((q) => (
-                            <option key={q} value={q}>
-                              {q}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">
+                        When will you be free? (Preferred Time) <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        name="timeSlot"
+                        value={formData.timeSlot}
+                        onChange={(e) =>
+                          setFormData({ ...formData, timeSlot: e.target.value })
+                        }
+                        className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl shadow-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-slate-900 outline-none"
+                      >
+                        {TIME_SLOTS.map((slot) => (
+                          <option key={slot} value={slot}>
+                            {slot}
+                          </option>
+                        ))}
+                      </select>
                     </div>
 
                     <div className="flex items-start gap-2 pt-1">
@@ -1722,46 +1679,26 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      State
-                    </label>
-                    <select
-                      value={modalFormData.state}
-                      onChange={(e) =>
-                        setModalFormData({ ...modalFormData, state: e.target.value })
-                      }
-                      className="w-full px-3 py-2.5 text-xs border border-slate-300 rounded-xl outline-none"
-                    >
-                      {INDIAN_STATES.map((s) => (
-                        <option key={s} value={s}>
-                          {s}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Qualification
-                    </label>
-                    <select
-                      value={modalFormData.qualification}
-                      onChange={(e) =>
-                        setModalFormData({
-                          ...modalFormData,
-                          qualification: e.target.value,
-                        })
-                      }
-                      className="w-full px-3 py-2.5 text-xs border border-slate-300 rounded-xl outline-none"
-                    >
-                      {QUALIFICATIONS.map((q) => (
-                        <option key={q} value={q}>
-                          {q}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    When will you be free? (Preferred Time) <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={modalFormData.timeSlot}
+                    onChange={(e) =>
+                      setModalFormData({
+                        ...modalFormData,
+                        timeSlot: e.target.value,
+                      })
+                    }
+                    className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    {TIME_SLOTS.map((slot) => (
+                      <option key={slot} value={slot}>
+                        {slot}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="flex items-start gap-2 pt-1">
@@ -1805,11 +1742,10 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
         onMouseLeave={() => setFloatingOpen(false)}
       >
         <div
-          className={`flex flex-col items-end gap-2.5 transition-all duration-200 ${
-            floatingOpen
+          className={`flex flex-col items-end gap-2.5 transition-all duration-200 ${floatingOpen
               ? "opacity-100 translate-y-0 pointer-events-auto"
               : "opacity-0 translate-y-2 pointer-events-none"
-          }`}
+            }`}
         >
           <a
             href={WHATSAPP_URL}
@@ -1840,9 +1776,8 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
           onMouseEnter={() => setFloatingOpen(true)}
           onClick={() => setFloatingOpen(!floatingOpen)}
           aria-label={floatingOpen ? "Close contact options" : "Contact us"}
-          className={`w-14 h-14 rounded-full flex items-center justify-center text-white shadow-xl transition-all hover:scale-105 cursor-pointer ${
-            floatingOpen ? "bg-slate-700" : "bg-blue-600 hover:bg-blue-700"
-          }`}
+          className={`w-14 h-14 rounded-full flex items-center justify-center text-white shadow-xl transition-all hover:scale-105 cursor-pointer ${floatingOpen ? "bg-slate-700" : "bg-blue-600 hover:bg-blue-700"
+            }`}
         >
           {floatingOpen ? (
             <FaTimes className="text-xl" />

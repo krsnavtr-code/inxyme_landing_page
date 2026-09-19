@@ -12,39 +12,7 @@ interface LeadFormProps {
   buttonText?: string;
 }
 
-const INDIAN_STATES = [
-  "Delhi NCR",
-  "Maharashtra",
-  "Karnataka",
-  "Uttar Pradesh",
-  "Rajasthan",
-  "Gujarat",
-  "Haryana",
-  "Punjab",
-  "Madhya Pradesh",
-  "West Bengal",
-  "Bihar",
-  "Tamil Nadu",
-  "Telangana",
-  "Andhra Pradesh",
-  "Kerala",
-  "Odisha",
-  "Assam",
-  "Other / Outside India",
-];
 
-const QUALIFICATIONS = [
-  "12th / Intermediate",
-  "Graduation Pursuing (Final Year)",
-  "BBA / BBM",
-  "B.Com / Commerce",
-  "B.Tech / B.E.",
-  "BCA / B.Sc IT / CS",
-  "B.Sc / General Science",
-  "BA / Arts / Humanities",
-  "Master's Degree (Postgraduate)",
-  "Diploma / Other",
-];
 
 export default function LeadForm({
   subdomain,
@@ -69,8 +37,8 @@ export default function LeadForm({
       name: String(form.get("name") || "").trim(),
       email: String(form.get("email") || "").trim(),
       phone: String(form.get("phone") || "").trim(),
-      state: String(form.get("state") || "").trim(),
-      qualification: String(form.get("qualification") || "").trim(),
+      timeSlot: String(form.get("timeSlot") || "").trim(),
+      time_slot: String(form.get("timeSlot") || "").trim(),
       subdomain,
       university: universityName,
       program: programName,
@@ -191,48 +159,23 @@ export default function LeadForm({
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-3.5">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                Current State <span className="text-red-500">*</span>
-              </label>
-              <select
-                name="state"
-                required
-                defaultValue=""
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#1565c0] focus:bg-white transition-all text-slate-700 font-medium"
-              >
-                <option value="" disabled>
-                  Select State
-                </option>
-                {INDIAN_STATES.map((state) => (
-                  <option key={state} value={state}>
-                    {state}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                Highest Qualification <span className="text-red-500">*</span>
-              </label>
-              <select
-                name="qualification"
-                required
-                defaultValue=""
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#1565c0] focus:bg-white transition-all text-slate-700 font-medium"
-              >
-                <option value="" disabled>
-                  Select Qualification
-                </option>
-                {QUALIFICATIONS.map((q) => (
-                  <option key={q} value={q}>
-                    {q}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              When will you be free? (Preferred Time) <span className="text-red-500">*</span>
+            </label>
+            <select
+              name="timeSlot"
+              required
+              defaultValue="9:00 AM - 12:00 PM"
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-[#1565c0] focus:bg-white transition-all text-slate-700 font-medium"
+            >
+              <option value="9:00 AM - 12:00 PM">9:00 AM - 12:00 PM</option>
+              <option value="12:00 PM - 2:00 PM">12:00 PM - 2:00 PM</option>
+              <option value="2:00 PM - 4:00 PM">2:00 PM - 4:00 PM</option>
+              <option value="4:00 PM - 7:00 PM">4:00 PM - 7:00 PM</option>
+              <option value="7:00 PM - 9:00 PM">7:00 PM - 9:00 PM</option>
+              <option value="9:00 PM - 11:00 PM">9:00 PM - 11:00 PM</option>
+            </select>
           </div>
 
           {errorMsg && (

@@ -41,8 +41,8 @@ export default function AiMlPage({ subdomain = "ai-ml" }: { subdomain?: string }
       name: String(form.get("name") || "").trim(),
       email: String(form.get("email") || "").trim(),
       phone: String(form.get("phone") || "").trim(),
-      state: String(form.get("state") || "").trim(),
-      qualification: String(form.get("qualification") || "").trim(),
+      timeSlot: String(form.get("timeSlot") || "").trim(),
+      time_slot: String(form.get("timeSlot") || "").trim(),
       subdomain,
       program: "AI & Machine Learning Certification Course",
       university: "Inxyme E-Learning",
@@ -144,14 +144,10 @@ export default function AiMlPage({ subdomain = "ai-ml" }: { subdomain?: string }
                     <input name="phone" placeholder="Mobile Number *" required pattern="[0-9]{10}" title="10-digit number" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#7c3aed]" />
                     <input name="email" type="email" placeholder="Email Address *" required className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#7c3aed]" />
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <select name="state" required defaultValue="" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#7c3aed] text-slate-600">
-                      <option value="" disabled>Select State *</option>
-                      {["Delhi NCR","Maharashtra","Karnataka","Uttar Pradesh","Gujarat","Rajasthan","Tamil Nadu","Telangana","Other"].map((s) => <option key={s}>{s}</option>)}
-                    </select>
-                    <select name="qualification" required defaultValue="" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#7c3aed] text-slate-600">
-                      <option value="" disabled>Qualification *</option>
-                      {["10+2","B.Tech / B.E.","BCA / B.Sc IT","B.Sc / Science","Graduate","Post Graduate","Working Professional","Other"].map((q) => <option key={q}>{q}</option>)}
+                  <div>
+                    <select name="timeSlot" required defaultValue="9:00 AM - 12:00 PM" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#7c3aed] text-slate-600">
+                      <option value="" disabled>Preferred Free Time Slot *</option>
+                      {["9:00 AM - 12:00 PM", "12:00 PM - 2:00 PM", "2:00 PM - 4:00 PM", "4:00 PM - 7:00 PM", "7:00 PM - 9:00 PM", "9:00 PM - 11:00 PM"].map((s) => <option key={s} value={s}>{s}</option>)}
                     </select>
                   </div>
                   <button type="submit" disabled={status === "submitting"} className="w-full py-3.5 bg-gradient-to-r from-[#7c3aed] to-[#ec4899] text-white font-black text-sm rounded-xl shadow-md hover:shadow-lg transition-all disabled:opacity-60">

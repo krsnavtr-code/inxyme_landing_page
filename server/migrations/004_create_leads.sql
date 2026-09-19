@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS leads (
     phone VARCHAR(50) NOT NULL,
     state VARCHAR(100),
     qualification VARCHAR(100),
+    time_slot VARCHAR(100),
     subdomain VARCHAR(255) NOT NULL,
     source VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

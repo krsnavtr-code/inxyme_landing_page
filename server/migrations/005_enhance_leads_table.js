@@ -20,6 +20,11 @@ module.exports = async function () {
             console.log("Added program column to leads table");
         }
 
+        if (!existingColNames.includes('time_slot')) {
+            await db.execute("ALTER TABLE leads ADD COLUMN time_slot VARCHAR(100) NULL AFTER program");
+            console.log("Added time_slot column to leads table");
+        }
+
         console.log("Leads table schema verified/enhanced successfully");
     } catch (err) {
         console.warn("Migration 005 note:", err.message);

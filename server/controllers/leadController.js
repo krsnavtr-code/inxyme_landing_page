@@ -13,6 +13,8 @@ exports.captureLead = async (req, res) => {
     program,
     subdomain,
     source,
+    timeSlot,
+    time_slot,
   } = req.body;
 
   if (!name || !email || !phone) {
@@ -23,13 +25,14 @@ exports.captureLead = async (req, res) => {
   }
 
   const cleanSubdomain = (subdomain || "sap").toLowerCase().trim();
+  const cleanTimeSlot = (timeSlot || time_slot || "").trim();
 
   try {
     // 1. Insert lead record into database
     try {
       await db.execute(
-        `INSERT INTO leads (name, email, phone, state, qualification, specialisation, university, program, subdomain, source) 
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO leads (name, email, phone, state, qualification, specialisation, university, program, time_slot, subdomain, source) 
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           name.trim(),
           email.trim(),
@@ -39,29 +42,47 @@ exports.captureLead = async (req, res) => {
           specialisation ? specialisation.trim() : null,
           university ? university.trim() : null,
           program ? program.trim() : null,
+          cleanTimeSlot || null,
           cleanSubdomain,
           source ? source.trim() : "landing-page",
         ],
       );
     } catch (colErr) {
       console.warn("Fallback to standard lead insert:", colErr.message);
-      await db.execute(
-        `INSERT INTO leads (name, email, phone, state, qualification, subdomain, source) 
-         VALUES (?, ?, ?, ?, ?, ?, ?)`,
-        [
-          name.trim(),
-          email.trim(),
-          phone.trim(),
-          state ? state.trim() : null,
-          qualification ? qualification.trim() : null,
-          cleanSubdomain,
-          source ? source.trim() : "landing-page",
-        ],
-      );
+      try {
+        await db.execute(
+          `INSERT INTO leads (name, email, phone, state, qualification, time_slot, subdomain, source) 
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            name.trim(),
+            email.trim(),
+            phone.trim(),
+            state ? state.trim() : null,
+            qualification ? qualification.trim() : null,
+            cleanTimeSlot || null,
+            cleanSubdomain,
+            source ? source.trim() : "landing-page",
+          ],
+        );
+      } catch (innerErr) {
+        await db.execute(
+          `INSERT INTO leads (name, email, phone, state, qualification, subdomain, source) 
+           VALUES (?, ?, ?, ?, ?, ?, ?)`,
+          [
+            name.trim(),
+            email.trim(),
+            phone.trim(),
+            state ? state.trim() : null,
+            qualification ? qualification.trim() : null,
+            cleanSubdomain,
+            source ? source.trim() : "landing-page",
+          ],
+        );
+      }
     }
 
     console.log(
-      `[LEAD CAPTURED] ${name} | ${email} | ${phone} | Subdomain: ${cleanSubdomain} | Source: ${source}`,
+      `[LEAD CAPTURED] ${name} | ${email} | ${phone} | TimeSlot: ${cleanTimeSlot || "N/A"} | Subdomain: ${cleanSubdomain} | Source: ${source}`,
     );
 
     // 2. Dispatch email notification to admin asynchronously
@@ -76,6 +97,7 @@ exports.captureLead = async (req, res) => {
       program: program ? program.trim() : null,
       subdomain: cleanSubdomain,
       source: source ? source.trim() : "landing-page",
+      timeSlot: cleanTimeSlot || null,
     }).catch((mailErr) => {
       console.error("[MAIL ASYNC ERROR]:", mailErr.message);
     });
