@@ -1,23 +1,38 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "SAP Certification Course 2026 | Inxyme E-Learning Platform",
+  title: "SAP Training & Certification Courses Online in India | Inxyme",
   description:
-    "Master SAP S/4HANA, SAP FICO, SAP MM, SAP SD and more with Inxyme's job-ready SAP certification course. Live classes, hands-on projects & placement support.",
+    "Master SAP with Inxyme's job-oriented online training and certification courses in SAP ABAP, FICO, MM, SD and PP. Live classes, real projects, certification and placement support.",
   keywords: [
-    "SAP Certification Course",
-    "SAP S/4HANA Training",
-    "SAP FICO Course Online",
-    "SAP MM Training India",
-    "SAP Course 2026",
-    "SAP Job Ready Certification",
-    "Learn SAP Online",
-    "Inxyme SAP Course",
+    "SAP training",
+    "SAP certification",
+    "SAP courses online",
+    "SAP ABAP course",
+    "SAP FICO course",
+    "SAP MM training",
+    "SAP SD course",
+    "SAP PP training",
+    "SAP online training India",
+    "SAP certification course",
+    "learn SAP",
+    "SAP career",
+    "Inxyme SAP courses",
   ],
+  alternates: {
+    canonical: "https://sap.inxyme.com",
+  },
   openGraph: {
-    title: "SAP Certification Course 2026 | Inxyme E-Learning",
+    title: "SAP Training & Certification Courses Online in India | Inxyme",
     description:
-      "Master SAP S/4HANA, FICO, MM & SD with live instructor-led sessions. Industry certification + placement support by Inxyme.",
+      "Master SAP with Inxyme's job-oriented online training and certification courses in SAP ABAP, FICO, MM, SD and PP. Live classes, real projects, certification and placement support.",
+    url: "https://sap.inxyme.com",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SAP Training & Certification Courses Online in India | Inxyme",
+    description:
+      "Master SAP with Inxyme's job-oriented online training and certification courses in SAP ABAP, FICO, MM, SD and PP. Live classes, real projects, certification and placement support.",
   },
 };
