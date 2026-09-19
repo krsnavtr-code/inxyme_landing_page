@@ -636,13 +636,13 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
 
             {/* CTA + Mobile menu button */}
             <div className="flex items-center gap-2">
-              <a
-                href="#enquire"
-                onClick={(e) => scrollTo(e, "#enquire")}
+              <button
+                type="button"
+                onClick={() => openCourseModal("SAP Training & Certification")}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all shadow-md shadow-blue-600/20 active:scale-95 cursor-pointer"
               >
                 Enquire Now
-              </a>
+              </button>
               <button
                 className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -674,6 +674,18 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
                 {link.label}
               </a>
             ))}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  openCourseModal("SAP Training & Certification");
+                }}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl font-bold text-sm shadow-md transition-all text-center cursor-pointer"
+              >
+                Enquire Now
+              </button>
+            </div>
           </nav>
         )}
       </header>
@@ -1508,7 +1520,6 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
                   { name: "Career Opportunities", to: "#careers" },
                   { name: "Reviews", to: "#reviews" },
                   { name: "FAQs", to: "#faq" },
-                  { name: "Enquire Now", to: "#enquire" },
                 ].map((link, idx) => (
                   <li key={idx}>
                     <a
@@ -1520,6 +1531,15 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
                     </a>
                   </li>
                 ))}
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => openCourseModal("SAP Training & Certification")}
+                    className="text-xs sm:text-sm text-slate-400 hover:text-blue-400 transition-colors cursor-pointer"
+                  >
+                    Enquire Now
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -1644,39 +1664,38 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Phone Number <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      pattern="[0-9]{10}"
-                      title="10-digit mobile number"
-                      value={modalFormData.phone}
-                      onChange={(e) =>
-                        setModalFormData({ ...modalFormData, phone: e.target.value })
-                      }
-                      placeholder="10-digit number"
-                      className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Email Address <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={modalFormData.email}
-                      onChange={(e) =>
-                        setModalFormData({ ...modalFormData, email: e.target.value })
-                      }
-                      placeholder="your.email@example.com"
-                      className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Email Address <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={modalFormData.email}
+                    onChange={(e) =>
+                      setModalFormData({ ...modalFormData, email: e.target.value })
+                    }
+                    placeholder="your.email@example.com"
+                    className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Phone Number <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    pattern="[0-9]{10}"
+                    title="10-digit mobile number"
+                    value={modalFormData.phone}
+                    onChange={(e) =>
+                      setModalFormData({ ...modalFormData, phone: e.target.value })
+                    }
+                    placeholder="10-digit number"
+                    className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
                 </div>
 
                 <div>
