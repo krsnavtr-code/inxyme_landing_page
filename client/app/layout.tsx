@@ -39,6 +39,24 @@ export default function RootLayout({
       className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        {/* Google tag (gtag.js) */}
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18116334851"
+        />
+        <Script
+          id="google-tag-aw"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-18116334851');
+            `,
+          }}
+        />
+
         {/* Google Tag Manager */}
         <Script
           id="gtm-script"
