@@ -895,42 +895,6 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
 
                     <div>
                       <label className="block text-xs font-semibold text-slate-700 mb-1">
-                        Preferred SAP Module
-                      </label>
-                      <select
-                        name="courseInterest"
-                        value={formData.courseInterest}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            courseInterest: e.target.value,
-                          })
-                        }
-                        className="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl shadow-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-slate-900 outline-none"
-                      >
-                        <option value="SAP S/4HANA & Global Modules">
-                          All Modules / Need Guidance
-                        </option>
-                        <option value="SAP ABAP Certification Training">
-                          SAP ABAP (Technical)
-                        </option>
-                        <option value="SAP FICO Financial Accounting">
-                          SAP FICO (Financial &amp; Controlling)
-                        </option>
-                        <option value="SAP MM Materials Management">
-                          SAP MM (Materials Management)
-                        </option>
-                        <option value="SAP SD Sales & Distribution">
-                          SAP SD (Sales &amp; Distribution)
-                        </option>
-                        <option value="SAP PP Production Planning">
-                          SAP PP (Production Planning)
-                        </option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">
                         When will you be free? (Preferred Time) <span className="text-red-500">*</span>
                       </label>
                       <select
