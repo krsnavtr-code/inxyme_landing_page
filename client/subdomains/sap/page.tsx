@@ -54,7 +54,7 @@ const WHATSAPP_URL =
 const PHONE_NUMBER = "+919266585858";
 
 const logoImg =
-  "https://www.inxyme.com/api/upload/file/final-logo-png-6483.png";
+  "https://www.inxyme.com/api/upload/file/Inxyme-png-logo-2232.png";
 
 const sapCourses = [
   {
