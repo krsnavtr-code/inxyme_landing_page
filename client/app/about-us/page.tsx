@@ -67,7 +67,7 @@ export default function AboutUsPage() {
             </div>
             <div className="space-y-1.5 p-3.5 bg-white rounded-lg border border-slate-200">
               <span className="font-bold text-slate-800 block">Official Contact Lines:</span>
-              <span className="text-slate-600 block">+91 9990999561 / +91 9266585858</span>
+              <span className="text-slate-600 block">+91 9990999561</span>
               <span className="text-slate-600 block">info@inxyme.com | support@inxyme.com</span>
             </div>
           </div>

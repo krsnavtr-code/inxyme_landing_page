@@ -7,8 +7,12 @@ export default function SapThankYou({ subdomain = "sap" }: { subdomain?: string 
     <div className="min-h-screen bg-[#f5f7fb] text-[#17243a] font-sans flex flex-col justify-between">
       <header className="bg-[#102d63] shadow-md">
         <div className="w-[min(1160px,92%)] mx-auto h-[68px] flex items-center justify-between">
-          <Link href="/" className="text-2xl font-black tracking-tight">
-            <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
+          <Link href="/" className="inline-block bg-white/95 px-3 py-1.5 rounded-xl shadow-xs">
+            <img
+              src="/images/Inxyme%20png%20logo.png"
+              alt="Inxyme"
+              className="h-9 w-auto object-contain"
+            />
           </Link>
           <Link href="/" className="text-xs sm:text-sm font-bold text-white/80 hover:text-white flex items-center gap-1">
             ← Back to Course
@@ -61,7 +65,7 @@ export default function SapThankYou({ subdomain = "sap" }: { subdomain?: string 
 
           <div className="flex flex-wrap items-center justify-center gap-3.5">
             <a
-              href="https://wa.me/919266585858?text=Hi%2C%20I%20just%20enquired%20about%20the%20Inxyme%20SAP%20Certification%20Course%20and%20need%20more%20details."
+              href="https://wa.me/919990999561?text=Hi%2C%20I%20just%20enquired%20about%20the%20Inxyme%20SAP%20Certification%20Course%20and%20need%20more%20details."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#20c76a] hover:bg-[#1bb35e] text-white font-black text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-md transition-all"
@@ -69,7 +73,7 @@ export default function SapThankYou({ subdomain = "sap" }: { subdomain?: string 
               <span>Chat on WhatsApp</span><span>💬</span>
             </a>
             <a
-              href="tel:+919266585858"
+              href="tel:+919990999561"
               className="inline-flex items-center gap-2 bg-[#102d63] hover:bg-[#0b2255] text-white font-black text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-md transition-all"
             >
               <span>Call SAP Advisor</span><span>📞</span>

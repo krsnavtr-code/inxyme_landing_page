@@ -58,8 +58,12 @@ export default function DataSciencePage({ subdomain = "data-science" }: { subdom
       {/* NAVBAR */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-[#e3e8f0] shadow-sm">
         <div className="w-[min(1200px,94%)] mx-auto h-[68px] flex items-center justify-between">
-          <Link href="/" className="text-2xl font-black tracking-tight leading-none">
-            <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
+          <Link href="/">
+            <img
+              src="/images/Inxyme%20png%20logo.png"
+              alt="Inxyme"
+              className="h-10 sm:h-12 w-auto object-contain"
+            />
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-700">
             {["Overview","Curriculum","Career","Fees","FAQ"].map(s => <a key={s} href={`#${s.toLowerCase()}`} className="hover:text-[#1565c0] transition-colors">{s}</a>)}
@@ -241,9 +245,13 @@ export default function DataSciencePage({ subdomain = "data-science" }: { subdom
         <div className="w-[min(1200px,94%)] mx-auto space-y-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-white/10">
             <div>
-              <span className="text-2xl font-black tracking-tight leading-none">
-                <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
-              </span>
+              <Link href="/" className="inline-block bg-white/95 px-3 py-1.5 rounded-xl shadow-xs">
+                <img
+                  src="/images/Inxyme%20png%20logo.png"
+                  alt="Inxyme"
+                  className="h-10 w-auto object-contain"
+                />
+              </Link>
               <p className="text-xs text-slate-400 mt-1">Data Science &amp; Business Analytics Certification</p>
             </div>
             <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-300">
@@ -262,7 +270,7 @@ export default function DataSciencePage({ subdomain = "data-science" }: { subdom
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[11px] text-[#8899bb] leading-relaxed">
             <div>
               <strong className="text-slate-300 block mb-1">Corporate Office &amp; Support:</strong>
-              <p>B-127, B Block, Sector 2, Noida, Uttar Pradesh 201301 | Helpline: +91 9990999561 / +91 9266585858 | Email: info@inxyme.com</p>
+              <p>B-127, B Block, Sector 2, Noida, Uttar Pradesh 201301 | Helpline: +91 9990999561 | Email: info@inxyme.com</p>
             </div>
             <div>
               <strong className="text-slate-300 block mb-1">Statutory Educational Disclaimer:</strong>

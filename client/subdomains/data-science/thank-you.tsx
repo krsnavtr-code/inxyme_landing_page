@@ -7,8 +7,12 @@ export default function DataScienceThankYou({ subdomain = "data-science" }: { su
     <div className="min-h-screen bg-[#f5f7fb] text-[#17243a] font-sans flex flex-col justify-between">
       <header className="bg-gradient-to-r from-[#0f2a5e] to-[#1a0a3d] shadow-md">
         <div className="w-[min(1160px,92%)] mx-auto h-[68px] flex items-center justify-between">
-          <Link href="/" className="text-2xl font-black tracking-tight leading-none">
-            <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
+          <Link href="/" className="inline-block bg-white/95 px-3 py-1.5 rounded-xl shadow-xs">
+            <img
+              src="/images/Inxyme%20png%20logo.png"
+              alt="Inxyme"
+              className="h-9 w-auto object-contain"
+            />
           </Link>
           <Link href="/" className="text-xs sm:text-sm font-bold text-white/80 hover:text-white flex items-center gap-1">← Back to Course</Link>
         </div>
@@ -38,10 +42,10 @@ export default function DataScienceThankYou({ subdomain = "data-science" }: { su
             </div>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3.5">
-            <a href="https://wa.me/919266585858?text=Hi%2C%20I%20just%20enquired%20about%20the%20Inxyme%20Data%20Science%20Course%20and%20need%20more%20details." target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#20c76a] hover:bg-[#1bb35e] text-white font-black text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-md transition-all">
+            <a href="https://wa.me/919990999561?text=Hi%2C%20I%20just%20enquired%20about%20the%20Inxyme%20Data%20Science%20Course%20and%20need%20more%20details." target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#20c76a] hover:bg-[#1bb35e] text-white font-black text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-md transition-all">
               <span>Chat on WhatsApp</span><span>💬</span>
             </a>
-            <a href="tel:+919266585858" className="inline-flex items-center gap-2 bg-[#1565c0] hover:bg-[#0d47a1] text-white font-black text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-md transition-all">
+            <a href="tel:+919990999561" className="inline-flex items-center gap-2 bg-[#1565c0] hover:bg-[#0d47a1] text-white font-black text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-md transition-all">
               <span>Call Our Advisor</span><span>📞</span>
             </a>
             <Link href="/" className="inline-flex items-center gap-2 bg-[#f1f4f9] hover:bg-[#e4e8f0] text-[#17243a] font-bold text-xs sm:text-sm px-5 py-3.5 rounded-xl transition-all">Return Back</Link>

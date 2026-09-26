@@ -291,8 +291,12 @@ export default function ProgramLandingTemplate({
     <div className="font-sans text-[#17233d]">
       <header className="sticky top-0 z-50 bg-white border-b border-[#e3e8f0]">
         <div className="w-[min(1180px,92%)] mx-auto h-[68px] flex items-center justify-between">
-          <Link className="text-2xl font-black tracking-tight" href="/">
-            <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
+          <Link href="/">
+            <img
+              src="/images/Inxyme%20png%20logo.png"
+              alt="Inxyme"
+              className="h-10 sm:h-12 w-auto object-contain"
+            />
           </Link>
           <nav className="hidden md:flex gap-6 text-sm font-semibold items-center">
             {navLinks.map((link) => (
@@ -724,8 +728,12 @@ export default function ProgramLandingTemplate({
       <footer className="bg-[#f5f7fb] py-10 border-t border-[#e3e8f0]">
         <div className="w-[min(1180px,92%)] mx-auto space-y-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4 border-b border-[#e2e8f0]">
-            <Link href="/" className="text-2xl font-black tracking-tight">
-              <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
+            <Link href="/">
+              <img
+                src="/images/Inxyme%20png%20logo.png"
+                alt="Inxyme"
+                className="h-9 w-auto object-contain"
+              />
             </Link>
             <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-[#475467]">
               <Link href="/about-us" className="hover:text-[#0066ff]">About Us</Link>
@@ -743,7 +751,7 @@ export default function ProgramLandingTemplate({
             <strong>Disclaimer:</strong> {footerDisclaimer}
           </div>
           <div className="text-xs text-[#667085]">
-            Corporate Office: B-127, B Block, Sector 2, Noida, Uttar Pradesh 201301 | Phone: +91 9990999561 / +91 9266585858 | Email: info@inxyme.com
+            Corporate Office: B-127, B Block, Sector 2, Noida, Uttar Pradesh 201301 | Phone: +91 9990999561 | Email: info@inxyme.com
           </div>
           <p className="text-center text-xs text-[#667085]">
             &copy; 2026 Inxyme. All rights reserved.

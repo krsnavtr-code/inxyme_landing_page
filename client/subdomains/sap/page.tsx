@@ -50,12 +50,11 @@ import {
 } from "react-icons/fa";
 
 const WHATSAPP_URL =
-  "https://wa.me/919266585858?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20Inxyme%20SAP%20training%20and%20certification%20courses.";
+  "https://wa.me/919990999561?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20Inxyme%20SAP%20training%20and%20certification%20courses.";
 
-const PHONE_NUMBER = "+919266585858";
+const PHONE_NUMBER = "+919990999561";
 
-const logoImg =
-  "https://www.inxyme.com/api/upload/file/Inxyme-png-logo-2232.png";
+const logoImg = "/images/Inxyme%20png%20logo.png";
 
 const sapCourses = [
   {
@@ -605,12 +604,12 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
             <a
               href="#top"
               onClick={(e) => scrollTo(e, "#top")}
-              className="text-lg font-bold text-blue-600 dark:text-blue-400"
+              className="flex items-center"
             >
               <img
                 src={logoImg}
-                alt="inxyme – Your Online Learning Partner"
-                className="h-[68px] rounded"
+                alt="Inxyme"
+                className="h-10 sm:h-12 w-auto object-contain"
               />
             </a>  
 
@@ -1440,9 +1439,13 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Column 1: About */}
             <div className="space-y-4">
-              <div className="text-2xl font-black tracking-tight">
-                <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
-              </div>
+              <Link href="/" className="inline-block bg-white/95 px-3 py-1.5 rounded-xl shadow-xs">
+                <img
+                  src={logoImg}
+                  alt="Inxyme"
+                  className="h-10 w-auto object-contain"
+                />
+              </Link>
               <h3 className="text-xs font-black text-white tracking-wider uppercase">
                 SAP Training &amp; Certification
               </h3>

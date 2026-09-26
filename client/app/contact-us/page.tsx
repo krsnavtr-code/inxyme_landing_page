@@ -112,8 +112,8 @@ export default function ContactUsPage() {
             </div>
             <h4 className="font-bold text-slate-900 text-sm">Official Helplines</h4>
             <div className="space-y-1 text-xs text-slate-600">
-              <p>Admissions: <a href="tel:+919990999561" className="text-blue-600 font-bold hover:underline">+91 9990999561</a></p>
-              <p>Support / WhatsApp: <a href="tel:+919266585858" className="text-blue-600 font-bold hover:underline">+91 9266585858</a></p>
+              <p>Helpline / Admissions: <a href="tel:+919990999561" className="text-blue-600 font-bold hover:underline">+91 9990999561</a></p>
+              <p>WhatsApp Desk: <a href="https://wa.me/919990999561" target="_blank" rel="noopener noreferrer" className="text-blue-600 font-bold hover:underline">+91 9990999561</a></p>
             </div>
           </div>
 

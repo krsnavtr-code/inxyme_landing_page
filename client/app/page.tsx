@@ -191,17 +191,11 @@ export default function HomePage() {
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-xs">
         <div className="w-[min(1240px,94%)] mx-auto h-20 flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#1565c0] to-[#0d47a1] text-white flex items-center justify-center font-black text-xl shadow-md">
-              IX
-            </div>
-            <div className="flex flex-col">
-              <span className="text-2xl font-black tracking-tight leading-none">
-                <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
-              </span>
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">
-                Job-Ready Certification Courses
-              </span>
-            </div>
+            <img
+              src="/images/Inxyme%20png%20logo.png"
+              alt="Inxyme"
+              className="h-12 w-auto object-contain"
+            />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-7 text-sm font-bold text-slate-700">
@@ -556,7 +550,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <span className="font-bold block text-slate-900">Support Phone:</span>
-                  <span>+91 9990999561 / +91 9266585858</span>
+                  <span>+91 9990999561</span>
                 </div>
                 <div>
                   <span className="font-bold block text-slate-900">Official Email:</span>
@@ -654,8 +648,8 @@ export default function HomePage() {
               </div>
               <h4 className="text-base font-bold text-white">Official Telephone</h4>
               <div className="space-y-1 text-xs text-slate-300">
-                <p>Admissions: <a href="tel:+919990999561" className="text-blue-400 hover:underline font-bold">+91 9990999561</a></p>
-                <p>Support / WhatsApp: <a href="tel:+919266585858" className="text-blue-400 hover:underline font-bold">+91 9266585858</a></p>
+                <p>Helpline / Admissions: <a href="tel:+919990999561" className="text-blue-400 hover:underline font-bold">+91 9990999561</a></p>
+                <p>Support / WhatsApp: <a href="https://wa.me/919990999561" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline font-bold">+91 9990999561</a></p>
               </div>
               <p className="text-[11px] text-slate-400 pt-1">
                 Mon–Sat: 9:30 AM – 6:30 PM IST
@@ -685,14 +679,13 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-slate-800">
             {/* Col 1 */}
             <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-black text-sm">
-                  IX
-                </div>
-                <span className="text-xl font-black tracking-tight">
-                  <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
-                </span>
-              </div>
+              <Link href="/" className="inline-block bg-white/95 px-3 py-1.5 rounded-xl shadow-xs">
+                <img
+                  src="/images/Inxyme%20png%20logo.png"
+                  alt="Inxyme"
+                  className="h-10 w-auto object-contain"
+                />
+              </Link>
               <p className="text-[12px] leading-relaxed text-slate-400">
                 Inxyme is an independent professional learning platform offering industry-aligned certification and training courses in SAP, Data Science, AI/ML, and Software Development.
               </p>
@@ -782,7 +775,7 @@ export default function HomePage() {
                 <li className="flex items-center gap-2">
                   <FaPhone className="text-emerald-500 shrink-0" />
                   <a href="tel:+919990999561" className="hover:text-white">
-                    +91 9990999561 / +91 9266585858
+                    +91 9990999561
                   </a>
                 </li>
                 <li className="flex items-center gap-2">

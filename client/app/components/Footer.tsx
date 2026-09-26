@@ -16,9 +16,13 @@ export default function Footer({
         {/* Top Header in Footer */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-slate-800">
           <div className="flex items-center gap-3">
-            <span className="text-2xl font-black tracking-tight leading-none">
-              <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
-            </span>
+            <Link href="/" className="inline-block bg-white/95 px-3 py-1.5 rounded-xl shadow-xs">
+              <img
+                src="/images/Inxyme%20png%20logo.png"
+                alt="Inxyme"
+                className="h-9 w-auto object-contain"
+              />
+            </Link>
             <span className="text-slate-700">|</span>
             <span className="text-slate-300 font-semibold text-xs">
               {universityName} {programName ? `– ${programName}` : ""}
@@ -122,7 +126,7 @@ export default function Footer({
               <li className="flex items-center gap-2">
                 <FaPhone className="text-emerald-500 shrink-0" />
                 <a href="tel:+919990999561" className="hover:text-white">
-                  +91 9990999561 / +91 9266585858
+                  +91 9990999561
                 </a>
               </li>
               <li className="flex items-center gap-2">

@@ -126,7 +126,7 @@ export default function PrivacyPolicyPage() {
             <p><strong>Entity:</strong> Inxyme E-Learning</p>
             <p><strong>Physical Address:</strong> B-127, B Block, Sector 2, Noida, Uttar Pradesh 201301, India</p>
             <p><strong>Email:</strong> <a href="mailto:info@inxyme.com" className="text-blue-600 underline">info@inxyme.com</a></p>
-            <p><strong>Helpline:</strong> +91 9990999561 / +91 9266585858</p>
+            <p><strong>Helpline:</strong> +91 9990999561</p>
           </div>
         </section>
       </div>

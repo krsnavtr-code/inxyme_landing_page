@@ -34,17 +34,11 @@ export default function PolicyLayout({
         <div className="w-[min(1240px,94%)] mx-auto h-20 flex items-center justify-between gap-4">
           {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#1565c0] to-[#0d47a1] text-white flex items-center justify-center font-black text-xl shadow-md group-hover:scale-105 transition-transform">
-              IX
-            </div>
-            <div className="flex flex-col">
-              <span className="text-2xl font-black tracking-tight leading-none">
-                <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
-              </span>
-              <span className="text-[10px] font-bold text-slate-500 tracking-wider uppercase mt-0.5">
-                Job-Ready Certification Courses
-              </span>
-            </div>
+            <img
+              src="/images/Inxyme%20png%20logo.png"
+              alt="Inxyme"
+              className="h-12 w-auto object-contain"
+            />
           </Link>
 
           {/* Nav Links */}
@@ -183,7 +177,7 @@ export default function PolicyLayout({
                     <div className="space-y-1 mt-1">
                       <a href="tel:+919990999561" className="flex items-center gap-1.5 text-blue-600 hover:underline">
                         <FaPhone className="text-slate-400" />
-                        <span>+91 9990999561 / +91 9266585858</span>
+                        <span>+91 9990999561</span>
                       </a>
                       <a href="mailto:info@inxyme.com" className="flex items-center gap-1.5 text-blue-600 hover:underline">
                         <FaEnvelope className="text-slate-400" />
@@ -269,14 +263,13 @@ export default function PolicyLayout({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-slate-800">
             {/* Col 1: Identity */}
             <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-black text-sm">
-                  IX
-                </div>
-                <span className="text-xl font-black tracking-tight">
-                  <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
-                </span>
-              </div>
+              <Link href="/" className="inline-block bg-white/95 px-3 py-1.5 rounded-xl shadow-xs">
+                <img
+                  src="/images/Inxyme%20png%20logo.png"
+                  alt="Inxyme"
+                  className="h-10 w-auto object-contain"
+                />
+              </Link>
               <p className="text-[12px] leading-relaxed text-slate-400">
                 Inxyme is an independent premier e-learning platform providing industry-relevant, job-oriented professional certification courses designed for modern careers.
               </p>
@@ -361,7 +354,7 @@ export default function PolicyLayout({
                 <li className="flex items-center gap-2">
                   <FaPhone className="text-emerald-500 shrink-0" />
                   <a href="tel:+919990999561" className="hover:text-white">
-                    +91 9990999561 / +91 9266585858
+                    +91 9990999561
                   </a>
                 </li>
                 <li className="flex items-center gap-2">
