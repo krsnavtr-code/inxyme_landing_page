@@ -32,9 +32,9 @@ export default function Navbar({
         <div className="flex items-center gap-3">
           <a
             href="#top"
-            className="flex items-center text-2xl font-black tracking-tight text-[#1565c0]"
+            className="flex items-center text-2xl font-black tracking-tight leading-none"
           >
-            Inx<span className="text-[#ef3e35]">yme</span>
+            <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
           </a>
           <span className="hidden sm:inline-block h-6 w-px bg-slate-200"></span>
           <span className="hidden sm:inline-block text-xs font-semibold uppercase tracking-wider text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md">

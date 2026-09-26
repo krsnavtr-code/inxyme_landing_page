@@ -7,7 +7,7 @@ export default function FdeThankYou({ subdomain = "fde" }: { subdomain?: string 
     <div className="min-h-screen bg-[#f5f7fb] text-[#17243a] font-sans flex flex-col justify-between">
       <header className="bg-gradient-to-r from-[#052e16] to-[#064e3b] shadow-md">
         <div className="w-[min(1160px,92%)] mx-auto h-[68px] flex items-center justify-between">
-          <Link href="/" className="text-2xl font-black text-white">Inx<span className="text-[#34d399]">yme</span></Link>
+          <Link href="/" className="text-2xl font-black tracking-tight"><span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span></Link>
           <Link href="/" className="text-xs sm:text-sm font-bold text-white/80 hover:text-white flex items-center gap-1">← Back to Course</Link>
         </div>
       </header>
@@ -47,8 +47,21 @@ export default function FdeThankYou({ subdomain = "fde" }: { subdomain?: string 
         </div>
       </main>
 
-      <footer className="bg-[#0a1a3a] text-[#667085] py-6 text-center text-xs border-t border-white/10">
-        <p>© {new Date().getFullYear()} Inxyme E-Learning Platform. All rights reserved.</p>
+      <footer className="bg-[#0a1a3a] text-[#8899bb] py-8 text-xs border-t border-white/10">
+        <div className="w-[min(1100px,94%)] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p>© {new Date().getFullYear()} Inxyme E-Learning. All rights reserved.</p>
+          <div className="flex flex-wrap items-center justify-center gap-4 text-slate-400">
+            <Link href="/about-us" className="hover:text-white transition-colors">About Us</Link>
+            <span>•</span>
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <span>•</span>
+            <Link href="/terms-conditions" className="hover:text-white transition-colors">Terms &amp; Conditions</Link>
+            <span>•</span>
+            <Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
+            <span>•</span>
+            <Link href="/contact-us" className="hover:text-white transition-colors">Contact Us</Link>
+          </div>
+        </div>
       </footer>
     </div>
   );

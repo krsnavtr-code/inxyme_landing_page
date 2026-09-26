@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface LeadFormProps {
   subdomain: string;
@@ -176,6 +177,27 @@ export default function LeadForm({
               <option value="7:00 PM - 9:00 PM">7:00 PM - 9:00 PM</option>
               <option value="9:00 PM - 11:00 PM">9:00 PM - 11:00 PM</option>
             </select>
+          </div>
+
+          <div className="flex items-start gap-2 pt-1 text-left">
+            <input
+              type="checkbox"
+              id="leadFormConsent"
+              required
+              defaultChecked
+              className="mt-1 h-3.5 w-3.5 rounded border-slate-300 text-[#f58220]"
+            />
+            <label htmlFor="leadFormConsent" className="text-[11px] text-slate-500 leading-tight">
+              I authorize Inxyme to contact me via Call, SMS, WhatsApp &amp; Email, and accept the{" "}
+              <Link href="/terms-conditions" className="text-blue-600 underline font-semibold">
+                Terms &amp; Conditions
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy-policy" className="text-blue-600 underline font-semibold">
+                Privacy Policy
+              </Link>
+              .
+            </label>
           </div>
 
           {errorMsg && (

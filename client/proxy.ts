@@ -19,9 +19,45 @@ export function proxy(request: NextRequest) {
     hostname === "localhost" ||
     hostname === "127.0.0.1";
 
+  const url = request.nextUrl.clone();
+
+  // Shared policy, contact, and informational routes accessible on all subdomains and root
+  const sharedRoutes = [
+    "/about-us",
+    "/about",
+    "/privacy-policy",
+    "/terms-conditions",
+    "/terms-of-service",
+    "/disclaimer",
+    "/contact-us",
+    "/contact",
+  ];
+
+  const isSharedRoute = sharedRoutes.some(
+    (route) => url.pathname === route || url.pathname.startsWith(`${route}/`)
+  );
+
+  // Normalize legacy or alternate policy paths
+  if (url.pathname === "/about") {
+    url.pathname = "/about-us";
+    return NextResponse.redirect(url);
+  }
+  if (url.pathname === "/contact") {
+    url.pathname = "/contact-us";
+    return NextResponse.redirect(url);
+  }
+  if (url.pathname === "/terms-of-service") {
+    url.pathname = "/terms-conditions";
+    return NextResponse.redirect(url);
+  }
+
+  if (isSharedRoute) {
+    // Deliver shared policy pages directly without subdomain prefix
+    return NextResponse.next();
+  }
+
   if (isRootOrApex) {
-    // Normal / Root domain should NOT serve any landing page.
-    // Allow request through so app/page.tsx or not-found can render 404.
+    // Normal / Root domain serves the main Inxyme Homepage (app/page.tsx)
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set("x-is-root-domain", "1");
     return NextResponse.next({
@@ -56,15 +92,15 @@ export function proxy(request: NextRequest) {
   }
 
   // Rewrite request to dynamic subdomain route with custom header
-  const url = request.nextUrl.clone();
-  const rawPathname = url.pathname === "/" ? "" : url.pathname;
-  url.pathname = `/${subdomain}${rawPathname}`;
+  const rewriteUrl = request.nextUrl.clone();
+  const rawPathname = rewriteUrl.pathname === "/" ? "" : rewriteUrl.pathname;
+  rewriteUrl.pathname = `/${subdomain}${rawPathname}`;
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-subdomain", subdomain);
   requestHeaders.set("x-is-subdomain", "1");
 
-  return NextResponse.rewrite(url, {
+  return NextResponse.rewrite(rewriteUrl, {
     request: {
       headers: requestHeaders,
     },

@@ -58,7 +58,9 @@ export default function DataSciencePage({ subdomain = "data-science" }: { subdom
       {/* NAVBAR */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-[#e3e8f0] shadow-sm">
         <div className="w-[min(1200px,94%)] mx-auto h-[68px] flex items-center justify-between">
-          <Link href="/" className="text-2xl font-black text-[#1565c0]">Inx<span className="text-[#ef3e35]">yme</span></Link>
+          <Link href="/" className="text-2xl font-black tracking-tight leading-none">
+            <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
+          </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-700">
             {["Overview","Curriculum","Career","Fees","FAQ"].map(s => <a key={s} href={`#${s.toLowerCase()}`} className="hover:text-[#1565c0] transition-colors">{s}</a>)}
           </nav>
@@ -121,6 +123,14 @@ export default function DataSciencePage({ subdomain = "data-science" }: { subdom
                       <option value="" disabled>Preferred Free Time Slot *</option>
                       {["9:00 AM - 12:00 PM", "12:00 PM - 2:00 PM", "2:00 PM - 4:00 PM", "4:00 PM - 7:00 PM", "7:00 PM - 9:00 PM", "9:00 PM - 11:00 PM"].map(s => <option key={s} value={s}>{s}</option>)}
                     </select>
+                  </div>
+                  <div className="flex items-start gap-2 pt-1 text-left">
+                    <input type="checkbox" id="dsConsent" required defaultChecked className="mt-1 h-3.5 w-3.5 rounded border-slate-300 text-[#1565c0]" />
+                    <label htmlFor="dsConsent" className="text-[11px] text-slate-500 leading-tight">
+                      I agree to receive course updates &amp; calls from Inxyme, and I accept the{" "}
+                      <Link href="/terms-conditions" className="text-blue-600 underline font-semibold">Terms &amp; Conditions</Link> and{" "}
+                      <Link href="/privacy-policy" className="text-blue-600 underline font-semibold">Privacy Policy</Link>.
+                    </label>
                   </div>
                   <button type="submit" disabled={status === "submitting"} className="w-full py-3.5 bg-gradient-to-r from-[#1565c0] to-[#7c3aed] text-white font-black text-sm rounded-xl shadow-md hover:shadow-lg transition-all disabled:opacity-60">
                     {status === "submitting" ? "Submitting…" : "Request Free Call Back →"}
@@ -227,16 +237,40 @@ export default function DataSciencePage({ subdomain = "data-science" }: { subdom
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-[#0a1a3a] text-[#8899bb] py-10 text-xs">
-        <div className="w-[min(1200px,94%)] mx-auto space-y-4">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pb-4 border-b border-white/10">
-            <span className="text-white text-xl font-black">Inx<span className="text-[#ef3e35]">yme</span></span>
-            <span className="text-[#667085]">Job-Ready Certification Courses</span>
+      <footer className="bg-[#0a1a3a] text-[#8899bb] py-12 text-xs">
+        <div className="w-[min(1200px,94%)] mx-auto space-y-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-white/10">
+            <div>
+              <span className="text-2xl font-black tracking-tight leading-none">
+                <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
+              </span>
+              <p className="text-xs text-slate-400 mt-1">Data Science &amp; Business Analytics Certification</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-300">
+              <Link href="/about-us" className="hover:text-white transition-colors">About Us</Link>
+              <span>•</span>
+              <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+              <span>•</span>
+              <Link href="/terms-conditions" className="hover:text-white transition-colors">Terms &amp; Conditions</Link>
+              <span>•</span>
+              <Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
+              <span>•</span>
+              <Link href="/contact-us" className="hover:text-white transition-colors">Contact Us</Link>
+            </div>
           </div>
-          <p className="text-[11px] leading-relaxed text-[#667085]">
-            <strong className="text-slate-400">Disclaimer:</strong> Inxyme is an independent e-learning platform offering job-ready certification courses. Salary ranges shown are indicative market data and not guaranteed. Placement support is provided on a best-effort basis. Individual outcomes may vary.
-          </p>
-          <p className="text-center text-[#4a5568]">© {new Date().getFullYear()} Inxyme. All rights reserved.</p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[11px] text-[#8899bb] leading-relaxed">
+            <div>
+              <strong className="text-slate-300 block mb-1">Corporate Office &amp; Support:</strong>
+              <p>B-127, B Block, Sector 2, Noida, Uttar Pradesh 201301 | Helpline: +91 9990999561 / +91 9266585858 | Email: info@inxyme.com</p>
+            </div>
+            <div>
+              <strong className="text-slate-300 block mb-1">Statutory Educational Disclaimer:</strong>
+              <p>Inxyme is an independent vocational e-learning platform offering career-focused skill certifications. Salary brackets are indicative market benchmarks and do not guarantee specific outcomes. Python is a registered trademark of the Python Software Foundation.</p>
+            </div>
+          </div>
+
+          <p className="text-center text-[#4a5568] pt-2 border-t border-white/5">© {new Date().getFullYear()} Inxyme. All rights reserved.</p>
         </div>
       </footer>
     </div>

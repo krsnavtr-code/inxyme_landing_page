@@ -2,6 +2,7 @@
 
 import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   FaCertificate,
   FaStar,
@@ -1439,8 +1440,8 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Column 1: About */}
             <div className="space-y-4">
-              <div className="text-2xl font-black text-white tracking-tight">
-                Inx<span className="text-[#ef3e35]">yme</span>
+              <div className="text-2xl font-black tracking-tight">
+                <span className="text-[#0066ff]">IN</span><span className="text-[#ff6a00]">X</span><span className="text-[#0066ff]">YME</span>
               </div>
               <h3 className="text-xs font-black text-white tracking-wider uppercase">
                 SAP Training &amp; Certification
@@ -1471,38 +1472,36 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
               </div>
             </div>
 
-            {/* Column 2: On This Page */}
+            {/* Column 2: Legal & Transparency */}
             <div className="space-y-3">
               <h3 className="text-xs font-black text-white tracking-wider uppercase">
-                On This Page
+                Legal &amp; Policy Pages
               </h3>
-              <ul className="space-y-2">
-                {[
-                  { name: "SAP Courses", to: "#sap-courses" },
-                  { name: "Why Inxyme", to: "#why-sap" },
-                  { name: "Learning Path", to: "#learning-path" },
-                  { name: "Career Opportunities", to: "#careers" },
-                  { name: "Reviews", to: "#reviews" },
-                  { name: "FAQs", to: "#faq" },
-                ].map((link, idx) => (
-                  <li key={idx}>
-                    <a
-                      href={link.to}
-                      onClick={(e) => scrollTo(e, link.to)}
-                      className="text-xs sm:text-sm text-slate-400 hover:text-blue-400 transition-colors cursor-pointer"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
+              <ul className="space-y-2 text-xs sm:text-sm">
                 <li>
-                  <button
-                    type="button"
-                    onClick={() => openCourseModal("SAP Training & Certification")}
-                    className="text-xs sm:text-sm text-slate-400 hover:text-blue-400 transition-colors cursor-pointer"
-                  >
-                    Enquire Now
-                  </button>
+                  <Link href="/about-us" className="text-slate-400 hover:text-blue-400 transition-colors">
+                    About Inxyme
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/privacy-policy" className="text-slate-400 hover:text-blue-400 transition-colors">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/terms-conditions" className="text-slate-400 hover:text-blue-400 transition-colors">
+                    Terms &amp; Conditions
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/disclaimer" className="text-slate-400 hover:text-blue-400 transition-colors">
+                    Statutory Disclaimer
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact-us" className="text-slate-400 hover:text-blue-400 transition-colors">
+                    Contact &amp; Grievance
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -1530,13 +1529,13 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
             {/* Column 4: Contact */}
             <div className="space-y-3">
               <h3 className="text-xs font-black text-white tracking-wider uppercase">
-                Contact Us
+                Corporate Location
               </h3>
               <ul className="space-y-3 text-xs sm:text-sm text-slate-400">
                 <li className="flex items-start gap-2.5">
                   <FaMapMarkerAlt className="h-4 w-4 text-blue-500 shrink-0 mt-0.5" />
                   <span>
-                    Sector 3, Noida, Uttar Pradesh, India
+                    B-127, B Block, Sector 2, Noida, Uttar Pradesh 201301, India
                   </span>
                 </li>
                 <li className="flex items-center gap-2.5">
@@ -1555,15 +1554,45 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
             </div>
           </div>
 
-          {/* Bottom Bar */}
-          <div className="mt-10 pt-6 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-xs text-slate-500">
+          {/* Statutory Disclaimer Box */}
+          <div className="mt-8 bg-slate-950/80 rounded-xl p-5 border border-slate-800 text-[11px] text-slate-400 leading-relaxed space-y-2">
+            <p className="font-bold text-slate-300 uppercase tracking-wider text-[10px]">
+              Statutory Transparency &amp; Non-Affiliation Notice
+            </p>
+            <p>
+              Inxyme is an independent professional learning institute. SAP, SAP S/4HANA, ABAP, FICO, MM, SD, and PP are registered trademarks of SAP SE in Germany and other countries. Inxyme is NOT affiliated with, authorized, sponsored, or endorsed by SAP SE. All programs are independent educational skill-development modules.
+            </p>
+            <p>
+              Indicative compensation ranges and hiring statistics reflect general industry surveys and do not constitute an unconditional guarantee of job placement or salary.
+            </p>
+          </div>
+
+          {/* Bottom Bar with Clickable Links */}
+          <div className="mt-6 pt-6 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+            <p className="text-slate-500 text-center sm:text-left">
               &copy; {new Date().getFullYear()} Inxyme. All rights reserved.
             </p>
-            <p className="text-xs text-slate-500 text-center sm:text-right">
-              SAP&reg; is a registered trademark of SAP SE. Inxyme offers an
-              independent industry-oriented training program.
-            </p>
+            <div className="flex flex-wrap items-center justify-center gap-4 text-slate-400">
+              <Link href="/about-us" className="hover:text-white transition-colors">
+                About Us
+              </Link>
+              <span>•</span>
+              <Link href="/privacy-policy" className="hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
+              <span>•</span>
+              <Link href="/terms-conditions" className="hover:text-white transition-colors">
+                Terms &amp; Conditions
+              </Link>
+              <span>•</span>
+              <Link href="/disclaimer" className="hover:text-white transition-colors">
+                Disclaimer
+              </Link>
+              <span>•</span>
+              <Link href="/contact-us" className="hover:text-white transition-colors">
+                Contact Us
+              </Link>
+            </div>
           </div>
         </div>
       </footer>
@@ -1698,7 +1727,15 @@ export default function SapPage({ subdomain = "sap" }: { subdomain?: string }) {
                     className="mt-1 h-3.5 w-3.5 rounded border-slate-300 text-blue-600"
                   />
                   <label htmlFor="modalTerms" className="text-[11px] text-slate-600">
-                    I agree to be contacted by Inxyme regarding courses &amp; fees.
+                    I agree to be contacted by Inxyme regarding courses &amp; fees, and I accept the{" "}
+                    <Link href="/terms-conditions" target="_blank" className="text-blue-600 underline font-semibold">
+                      Terms &amp; Conditions
+                    </Link>{" "}
+                    and{" "}
+                    <Link href="/privacy-policy" target="_blank" className="text-blue-600 underline font-semibold">
+                      Privacy Policy
+                    </Link>
+                    .
                   </label>
                 </div>
 
