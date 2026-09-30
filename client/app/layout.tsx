@@ -18,12 +18,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const GTM_ID = "GTM-WP77FSW2";
+
 export const metadata: Metadata = {
   title: "Inxyme - Job-Ready Certification Courses | SAP, Data Science, AI/ML",
   description:
     "Inxyme is a premier e-learning platform offering job-ready certification courses in SAP, Data Science, AI/ML, and more. Start your career transformation today.",
   icons: {
     icon: "/icon.webp",
+  },
+  verification: {
+    google: "CknxLEi-2fHtHDEyeKydZvqLUFbx5eRVDUNT7UM_ueo",
   },
 };
 
@@ -58,17 +63,14 @@ export default function RootLayout({
         />
 
         {/* Google Tag Manager */}
-        <Script
-          id="gtm-script"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        <Script id="google-tag-manager" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-P7CSPHW5');`,
-          }}
-        />
+})(window,document,'script','dataLayer','${GTM_ID}');`}
+        </Script>
+        {/* End Google Tag Manager */}
 
         {/* Tawk.to Script */}
         <Script
@@ -90,9 +92,10 @@ s0.parentNode.insertBefore(s1,s0);
         />
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-P7CSPHW5"
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
