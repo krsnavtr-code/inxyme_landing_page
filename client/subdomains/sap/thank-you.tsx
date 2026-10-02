@@ -1,10 +1,29 @@
 "use client";
 
 import Link from "next/link";
+import Script from "next/script";
 
 export default function SapThankYou({ subdomain = "sap" }: { subdomain?: string }) {
   return (
     <div className="min-h-screen bg-[#f5f7fb] text-[#17243a] font-sans flex flex-col justify-between">
+      {/* Google tag (gtag.js) */}
+      <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=AW-18473601189"
+        strategy="afterInteractive"
+      />
+      <Script
+        id="google-tag-aw-18473601189"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18473601189');
+          `,
+        }}
+      />
       <header className="bg-[#102d63] shadow-md">
         <div className="w-[min(1160px,92%)] mx-auto h-[68px] flex items-center justify-between">
           <Link href="/" className="inline-block bg-white/95 px-3 py-1.5 rounded-xl shadow-xs">
