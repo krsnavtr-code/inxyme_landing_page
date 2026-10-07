@@ -5,6 +5,9 @@ const db = require("./config/db");
 const pageRoutes = require("./routes/pageRoutes");
 const leadRoutes = require("./routes/leadRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const partialLeadRoutes = require("./routes/partialLeadRoutes");
+const visitorRoutes = require("./routes/visitorRoutes");
+const serverTrackingRoutes = require("./routes/serverTrackingRoutes");
 const { verifySmtpConnection } = require("./services/mailService");
 
 const app = express();
@@ -17,6 +20,9 @@ app.use(express.json());
 app.use("/api", pageRoutes);
 app.use("/api", leadRoutes);
 app.use("/api", paymentRoutes);
+app.use("/api", partialLeadRoutes);
+app.use("/api", visitorRoutes);
+app.use("/api", serverTrackingRoutes);
 
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });

@@ -95,10 +95,33 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 3. Save lead into inxyme-landing-page database & dispatch admin email
+    // 3. Save payment & lead into inxyme-landing-page database & dispatch admin email
     const landingApiUrl =
       process.env.NEXT_PUBLIC_API_URL || "http://localhost:5006";
 
+    // 3a. Save payment in MySQL payments table & send payment alert
+    try {
+      await fetch(`${landingApiUrl}/api/payments/verify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId,
+          paymentId,
+          signature,
+          name: (name || "").trim(),
+          email: (email || "").toLowerCase().trim(),
+          phone: String(phone || "").trim(),
+          course,
+          paymentAmount,
+        }),
+        signal: AbortSignal.timeout(6000),
+      });
+      console.log("[INXYME-LANDING-PAGE PAYMENT SAVED IN MYSQL]:", paymentId);
+    } catch (payErr: any) {
+      console.warn("Landing page payment insert warning:", payErr?.message);
+    }
+
+    // 3b. Save student registration in MySQL leads table
     const landingLeadPayload = {
       name: (name || "").trim(),
       email: (email || "").toLowerCase().trim(),

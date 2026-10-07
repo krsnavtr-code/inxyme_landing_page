@@ -176,8 +176,152 @@ async function sendLeadNotificationToAdmin(leadData) {
   }
 }
 
+/**
+ * Sends real-time alert to admin when an incomplete form / abandoned lead is detected
+ */
+async function sendPartialLeadAlert(partialData) {
+  const { name, email, phone, courseTitle, pageUrl, source } = partialData;
+  const adminEmail = process.env.ADMIN_EMAIL || "krishnaavtar955@gmail.com";
+  const fromName = process.env.MAIL_FROM_NAME || "Inxyme";
+  const fromAddress = process.env.MAIL_FROM_ADDRESS || "noreply@inxyme.com";
+
+  const cleanPhone = String(phone || "").replace(/[^0-9]/g, "");
+  const subject = `⚠️ High Intent Drop-off Alert: ${name || phone || "Visitor"} left form on ${courseTitle || "SAP Webinar"}`;
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <style>
+        body { font-family: Arial, sans-serif; background-color: #fff8f0; margin: 0; padding: 20px; color: #1f2937; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; border: 2px solid #f97316; overflow: hidden; }
+        .header { background: #ea580c; color: white; padding: 20px; text-align: center; }
+        .header h1 { margin: 0; font-size: 20px; }
+        .content { padding: 24px; font-size: 14px; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .table td { padding: 10px; border-bottom: 1px solid #fed7aa; }
+        .btn-wa { display: inline-block; background: #25d366; color: white !important; font-weight: bold; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 15px; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>⚠️ High-Intent Form Drop-off Alert</h1>
+          <p style="margin: 4px 0 0; opacity: 0.9;">User started filling the form but hasn't submitted yet!</p>
+        </div>
+        <div class="content">
+          <p><strong>Follow up immediately to convert this lead:</strong></p>
+          <table class="table">
+            <tr><td><strong>Name:</strong></td><td>${name || "Incomplete / Not typed"}</td></tr>
+            <tr><td><strong>Phone:</strong></td><td><a href="tel:${phone}" style="color: #ea580c; font-weight: bold;">${phone || "N/A"}</a></td></tr>
+            <tr><td><strong>Email:</strong></td><td>${email || "N/A"}</td></tr>
+            <tr><td><strong>Course / Page:</strong></td><td>${courseTitle || "SAP Webinar"} (${pageUrl || "/sap-webinar"})</td></tr>
+            <tr><td><strong>Source:</strong></td><td>${source || "onBlur capture"}</td></tr>
+            <tr><td><strong>Timestamp:</strong></td><td>${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}</td></tr>
+          </table>
+          ${cleanPhone.length >= 10 ? `
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="https://wa.me/91${cleanPhone.slice(-10)}" class="btn-wa">Instant WhatsApp Message →</a>
+          </div>
+          ` : ""}
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"${fromName}" <${fromAddress}>`,
+      to: adminEmail,
+      subject,
+      html: htmlContent,
+    });
+    console.log(`[PARTIAL LEAD ALERT SENT] Sent to ${adminEmail} (MsgID: ${info.messageId})`);
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error("[PARTIAL LEAD ALERT ERROR]:", error.message);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Sends payment confirmation alert to admin
+ */
+async function sendPaymentAlert(paymentData) {
+  const { name, email, phone, course, amount = 9, paymentId, orderId } = paymentData;
+  const adminEmail = process.env.ADMIN_EMAIL || "krishnaavtar955@gmail.com";
+  const fromName = process.env.MAIL_FROM_NAME || "Inxyme";
+  const fromAddress = process.env.MAIL_FROM_ADDRESS || "noreply@inxyme.com";
+
+  const cleanPhone = String(phone || "").replace(/[^0-9]/g, "");
+  const subject = `🎉 ₹${amount} Webinar Payment Received: ${name} (${course})`;
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <style>
+        body { font-family: Arial, sans-serif; background-color: #f0fdf4; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; border: 2px solid #16a34a; overflow: hidden; }
+        .header { background: #15803d; color: white; padding: 20px; text-align: center; }
+        .content { padding: 24px; font-size: 14px; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .table td { padding: 10px; border-bottom: 1px solid #dcfce7; }
+        .badge { display: inline-block; background: #bbf7d0; color: #166534; font-weight: bold; padding: 4px 10px; border-radius: 6px; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>🎉 ₹${amount} Payment Confirmed!</h1>
+          <p style="margin: 4px 0 0;">New paid registration for ${course}</p>
+        </div>
+        <div class="content">
+          <table class="table">
+            <tr><td><strong>Status:</strong></td><td><span class="badge">SUCCESSFUL PAID</span></td></tr>
+            <tr><td><strong>Amount:</strong></td><td><strong>₹${amount} INR</strong></td></tr>
+            <tr><td><strong>Student Name:</strong></td><td>${name}</td></tr>
+            <tr><td><strong>Mobile:</strong></td><td><a href="tel:${phone}">${phone}</a></td></tr>
+            <tr><td><strong>Email:</strong></td><td>${email}</td></tr>
+            <tr><td><strong>Course:</strong></td><td>${course}</td></tr>
+            <tr><td><strong>Razorpay Payment ID:</strong></td><td><code>${paymentId}</code></td></tr>
+            <tr><td><strong>Razorpay Order ID:</strong></td><td><code>${orderId}</code></td></tr>
+            <tr><td><strong>Date & Time:</strong></td><td>${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}</td></tr>
+          </table>
+          ${cleanPhone.length >= 10 ? `
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="https://wa.me/91${cleanPhone.slice(-10)}?text=Hi%20${encodeURIComponent(name)},%20welcome%20to%20Inxyme%20SAP%20Webinar!%20Your%20seat%20is%20confirmed." style="display: inline-block; background: #25d366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Send Webinar Link on WhatsApp →</a>
+          </div>
+          ` : ""}
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"${fromName}" <${fromAddress}>`,
+      to: adminEmail,
+      subject,
+      html: htmlContent,
+    });
+    console.log(`[PAYMENT ALERT SENT] Sent to ${adminEmail} (MsgID: ${info.messageId})`);
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error("[PAYMENT ALERT ERROR]:", error.message);
+    return { success: false, error: error.message };
+  }
+}
+
 module.exports = {
   transporter,
   verifySmtpConnection,
   sendLeadNotificationToAdmin,
+  sendPartialLeadAlert,
+  sendPaymentAlert,
 };
+

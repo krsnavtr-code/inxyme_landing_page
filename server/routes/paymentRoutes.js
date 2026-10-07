@@ -61,6 +61,9 @@ router.post("/payments/create-order", async (req, res) => {
   }
 });
 
+const db = require("../config/db");
+const { sendPaymentAlert } = require("../services/mailService");
+
 router.post("/payments/verify", async (req, res) => {
   const {
     orderId,
@@ -72,10 +75,59 @@ router.post("/payments/verify", async (req, res) => {
     course,
     paymentAmount = 9,
   } = req.body;
+
+  if (!paymentId || !orderId) {
+    return res.status(400).json({ success: false, message: "paymentId and orderId are required" });
+  }
+
+  const cleanName = name || "Webinar Attendee";
+  const cleanEmail = email || "student@inxyme.com";
+  const cleanPhone = phone || "0000000000";
+  const cleanCourse = course ? `SAP Webinar - ${course}` : "SAP Webinar";
+  const numericAmount = Number(paymentAmount) || 9.0;
+
+  // 1. Save payment directly into inxyme-landing-page MySQL database
+  try {
+    await db.execute(
+      `INSERT INTO payments 
+       (order_id, payment_id, signature, name, email, phone, course, amount, currency, status, method) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'INR', 'success', 'razorpay')
+       ON DUPLICATE KEY UPDATE 
+         status = 'success', 
+         signature = VALUES(signature),
+         name = VALUES(name),
+         email = VALUES(email),
+         phone = VALUES(phone)`,
+      [
+        orderId,
+        paymentId,
+        signature || null,
+        cleanName,
+        cleanEmail,
+        cleanPhone,
+        cleanCourse,
+        numericAmount,
+      ]
+    );
+    console.log(`[PAYMENT SAVED IN MYSQL]: ${paymentId} | ${cleanName} | ₹${numericAmount} | ${cleanCourse}`);
+  } catch (dbErr) {
+    console.error("MySQL payment insert error:", dbErr.message);
+  }
+
+  // 2. Dispatch real-time payment confirmation email alert to admin
+  sendPaymentAlert({
+    name: cleanName,
+    email: cleanEmail,
+    phone: cleanPhone,
+    course: cleanCourse,
+    amount: numericAmount,
+    paymentId,
+    orderId,
+  }).catch((err) => console.error("Payment alert email notice:", err.message));
+
+  // 3. Forward to inxyme-website to save DirectPayment in MongoDB
   const websiteApiUrl =
     process.env.INXYME_WEBSITE_API_URL || "https://www.inxyme.com/api";
-
-  // Forward to inxyme-website to save DirectPayment in MongoDB
   try {
     const websiteRes = await fetch(`${websiteApiUrl}/payments/verify`, {
       method: "POST",
@@ -84,25 +136,41 @@ router.post("/payments/verify", async (req, res) => {
         orderId,
         paymentId,
         signature,
-        name,
-        email,
-        phone,
-        course: `SAP Webinar - ${course || "SAP"}`,
+        name: cleanName,
+        email: cleanEmail,
+        phone: cleanPhone,
+        course: cleanCourse,
         address: "Webinar Online Attendee",
-        paymentAmount: Number(paymentAmount) || 9,
+        paymentAmount: numericAmount,
         isCompanyRegistration: false,
       }),
     });
     const websiteData = await websiteRes.json();
     console.log("[LANDING SERVER -> WEBSITE PAYMENT SYNC]:", websiteData);
   } catch (e) {
-    console.error("Website payment sync error:", e.message);
+    console.warn("Website payment sync notice:", e.message);
   }
 
   res.json({
     success: true,
-    message: "Payment recorded in inxyme-website records",
+    message: "Payment successfully verified and saved in inxyme-landing-page database",
+    paymentId,
+    orderId,
   });
+});
+
+// GET /api/payments - List all payments with pagination
+router.get("/payments", async (req, res) => {
+  try {
+    const { limit = 50, offset = 0 } = req.query;
+    const [rows] = await db.execute(
+      "SELECT * FROM payments ORDER BY created_at DESC LIMIT ? OFFSET ?",
+      [parseInt(limit), parseInt(offset)]
+    );
+    res.json({ success: true, count: rows.length, data: rows });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
 });
 
 module.exports = router;

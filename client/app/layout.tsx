@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
+import VisitorTracker from "../components/VisitorTracker";
 import "./globals.css";
 
 const inter = Inter({
@@ -102,6 +103,7 @@ s0.parentNode.insertBefore(s1,s0);
           />
         </noscript>
         {/* End Google Tag Manager (noscript) */}
+        <VisitorTracker />
         {children}
       </body>
     </html>

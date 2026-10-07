@@ -37,6 +37,14 @@ import {
   FaRegLightbulb,
 } from "react-icons/fa";
 
+import VisitorTracker from "../../components/VisitorTracker";
+import ExitIntentModal from "../../components/ExitIntentModal";
+import MagicPrefillBanner from "../../components/MagicPrefillBanner";
+import { useMagicPrefill } from "../../hooks/useMagicPrefill";
+import { usePartialLead } from "../../hooks/usePartialLead";
+import { posthogTrackCourseView, posthogCapture } from "../../utils/posthog";
+import { identifyVisitor } from "../../utils/visitorTracker";
+
 const WHATSAPP_URL =
   "https://wa.me/919990999561?text=Hi%20Inxyme%2C%20I%20saw%20your%20%E2%82%B99%20SAP%20Career%20Webinar%20ad%20and%20want%20to%20know%20more%20details.";
 
@@ -308,6 +316,43 @@ export default function SapWebinarPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [selectedCourseTab, setSelectedCourseTab] = useState("sap-fico");
 
+  // 9. Pre-filled Magic Links (For Returning Users)
+  const { prefillData, clearPrefill } = useMagicPrefill();
+
+  useEffect(() => {
+    if (prefillData) {
+      setFormData((prev) => ({
+        ...prev,
+        name: prev.name || prefillData.name || "",
+        phone: prev.phone || prefillData.phone || "",
+        email: prev.email || prefillData.email || "",
+        courseInterest:
+          prev.courseInterest ||
+          prefillData.courseTitle ||
+          "SAP FICO (Financials)",
+      }));
+    }
+  }, [prefillData]);
+
+  // 1. Partial Form Fill (Jo form aadha chhod dete hain)
+  const { handlePartialLeadBlur, markConverted } = usePartialLead({
+    source: "sap_webinar_registration",
+    getFormData: () => ({
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      courseTitle: formData.courseInterest,
+    }),
+  });
+
+  // 2. Course View Tracking (Kisne konsa course check kiya)
+  const handleSelectCourseTab = (trackId: string, trackTitle: string) => {
+    setSelectedCourseTab(trackId);
+    posthogTrackCourseView(trackTitle, trackId, {
+      source: "course_finder_matrix",
+    });
+  };
+
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -451,6 +496,22 @@ export default function SapWebinarPage() {
             });
 
             await verifyRes.json();
+
+            // Mark partial lead as fully converted
+            markConverted();
+
+            // Link visitor identity and record in PostHog
+            identifyVisitor({ name, email, phone });
+            posthogCapture("webinar_booking_completed", {
+              amount: 9,
+              paymentId: response.razorpay_payment_id,
+              orderId: response.razorpay_order_id || orderData.order.id,
+              courseTitle: formData.courseInterest,
+              name,
+              email,
+              phone,
+            });
+
             router.push("/thank-you");
           } catch (err: any) {
             console.error("Payment verification reporting notice:", err);
@@ -716,6 +777,8 @@ export default function SapWebinarPage() {
 
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-3">
+                  <MagicPrefillBanner prefillData={prefillData} onClear={clearPrefill} />
+
                   {errorMessage && (
                     <div className="p-2.5 bg-red-500/20 border border-red-500/40 rounded-lg text-xs text-red-300 font-semibold">
                       {errorMessage}
@@ -730,6 +793,7 @@ export default function SapWebinarPage() {
                       placeholder="e.g. Rahul Sharma"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onBlur={handlePartialLeadBlur}
                       className="w-full bg-[#060c18] border border-white/20 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
                     />
                   </div>
@@ -745,6 +809,7 @@ export default function SapWebinarPage() {
                         placeholder="10-digit number"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, "") })}
+                        onBlur={handlePartialLeadBlur}
                         className="w-full bg-[#060c18] border border-white/20 rounded-r-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
                       />
                     </div>
@@ -759,6 +824,7 @@ export default function SapWebinarPage() {
                       placeholder="rahul@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onBlur={handlePartialLeadBlur}
                       className="w-full bg-[#060c18] border border-white/20 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
                     />
                   </div>
@@ -768,6 +834,7 @@ export default function SapWebinarPage() {
                     <select
                       value={formData.courseInterest}
                       onChange={(e) => setFormData({ ...formData, courseInterest: e.target.value })}
+                      onBlur={handlePartialLeadBlur}
                       className="w-full bg-[#060c18] border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400"
                     >
                       <option value="SAP FICO (Financials)">SAP FICO (Financial Accounting & Management Controlling)</option>
@@ -899,7 +966,7 @@ export default function SapWebinarPage() {
             {COURSE_DIRECTIONS.map((track) => (
               <button
                 key={track.id}
-                onClick={() => setSelectedCourseTab(track.id)}
+                onClick={() => handleSelectCourseTab(track.id, track.title)}
                 className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${selectedCourseTab === track.id
                   ? "bg-amber-400 text-slate-950 shadow-md scale-105"
                   : "bg-[#0b1730] text-slate-300 hover:text-white border border-white/10"
@@ -1307,6 +1374,8 @@ export default function SapWebinarPage() {
 
             {/* Registration Form */}
             <form onSubmit={handleSubmit} className="space-y-3">
+              <MagicPrefillBanner prefillData={prefillData} onClear={clearPrefill} />
+
               {errorMessage && (
                 <div className="p-2.5 bg-red-500/20 border border-red-500/40 rounded-lg text-xs text-red-300 font-semibold">
                   {errorMessage}
@@ -1321,6 +1390,7 @@ export default function SapWebinarPage() {
                   placeholder="e.g. Rahul Sharma"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onBlur={handlePartialLeadBlur}
                   className="w-full bg-[#060c18] border border-white/20 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
                 />
               </div>
@@ -1336,6 +1406,7 @@ export default function SapWebinarPage() {
                     placeholder="10-digit number"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, "") })}
+                    onBlur={handlePartialLeadBlur}
                     className="w-full bg-[#060c18] border border-white/20 rounded-r-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
                   />
                 </div>
@@ -1350,6 +1421,7 @@ export default function SapWebinarPage() {
                   placeholder="rahul@example.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onBlur={handlePartialLeadBlur}
                   className="w-full bg-[#060c18] border border-white/20 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
                 />
               </div>
@@ -1359,6 +1431,7 @@ export default function SapWebinarPage() {
                 <select
                   value={formData.courseInterest}
                   onChange={(e) => setFormData({ ...formData, courseInterest: e.target.value })}
+                  onBlur={handlePartialLeadBlur}
                   className="w-full bg-[#060c18] border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400"
                 >
                   <option value="SAP FICO (Financials)">SAP FICO (Financial Accounting &amp; Management Controlling)</option>
@@ -1406,6 +1479,20 @@ export default function SapWebinarPage() {
           </div>
         </div>
       )}
+
+      {/* ── EXIT INTENT RE-ENGAGEMENT MODAL ── */}
+      <ExitIntentModal
+        onPayNow={(data) => {
+          setFormData((prev) => ({
+            ...prev,
+            name: data.name,
+            phone: data.phone,
+            email: data.email,
+            courseInterest: data.courseInterest,
+          }));
+          setIsModalOpen(true);
+        }}
+      />
     </div>
   );
 }
