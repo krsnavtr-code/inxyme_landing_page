@@ -28,6 +28,7 @@ import {
   FaVideo,
   FaLock,
   FaBolt,
+  FaTimes,
   FaChevronDown,
   FaDownload,
   FaBookReader,
@@ -292,12 +293,11 @@ export default function SapWebinarPage() {
     name: "",
     email: "",
     phone: "",
-    background: "B.Tech / BCA / MCA",
     courseInterest: "SAP FICO (Financials)",
-    preferredSlot: "Saturday 7:00 PM IST",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [timeLeft, setTimeLeft] = useState({
     hours: 2,
@@ -345,10 +345,7 @@ export default function SapWebinarPage() {
       name: formData.name.trim(),
       email: formData.email.trim(),
       phone: formData.phone.trim(),
-      qualification: formData.background,
-      program: `Webinar: ${formData.courseInterest} (Slot: ${formData.preferredSlot})`,
-      timeSlot: formData.preferredSlot,
-      time_slot: formData.preferredSlot,
+      program: `Webinar: ${formData.courseInterest}`,
       subdomain: "sap-webinar",
       source: "sap-webinar-rs9-landing",
       price: 9,
@@ -368,11 +365,12 @@ export default function SapWebinarPage() {
     }
   };
 
-  const scrollToRegistration = () => {
-    const formElement = document.getElementById("register-form");
-    if (formElement) {
-      formElement.scrollIntoView({ behavior: "smooth" });
+  const openModalForm = (moduleName?: string) => {
+    if (moduleName) {
+      setFormData((prev) => ({ ...prev, courseInterest: moduleName }));
     }
+    setErrorMessage("");
+    setIsModalOpen(true);
   };
 
   return (
@@ -409,7 +407,7 @@ export default function SapWebinarPage() {
               ⚡ LIMITED SLOTS: Only 18 Seats Left For This Weekend
             </span>
             <button
-              onClick={scrollToRegistration}
+              onClick={() => openModalForm()}
               className="bg-slate-950 hover:bg-slate-900 text-amber-300 px-3 py-0.5 rounded-full text-[11px] font-black shadow-xs transition-transform hover:scale-105 ml-auto sm:ml-0 cursor-pointer"
             >
               Claim Seat Now →
@@ -440,7 +438,7 @@ export default function SapWebinarPage() {
                 <FaPhoneAlt className="text-amber-400 text-[11px]" /> +91 99909 99561
               </a>
               <button
-                onClick={scrollToRegistration}
+                onClick={() => openModalForm()}
                 className="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs px-3.5 py-2 rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer flex items-center gap-1"
               >
                 <span>Book Slot @ ₹9</span>
@@ -647,48 +645,19 @@ export default function SapWebinarPage() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-300 mb-0.5">Background</label>
-                      <select
-                        value={formData.background}
-                        onChange={(e) => setFormData({ ...formData, background: e.target.value })}
-                        className="w-full bg-[#060c18] border border-white/20 rounded-lg px-2 py-2 text-[11px] text-white focus:outline-none focus:border-amber-400"
-                      >
-                        <option value="B.Com / M.Com / CA / Finance">B.Com / M.Com / CA / Finance</option>
-                        <option value="B.Tech / BCA / MCA / IT">B.Tech / BCA / MCA / IT</option>
-                        <option value="Non-IT / Arts / B.Sc / Any Degree">Non-IT / Any Graduate</option>
-                        <option value="Working Professional (Career Switch)">Working Professional</option>
-                        <option value="Fresher Looking For Job">Fresher Job Seeker</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-bold text-slate-300 mb-0.5">Module Interest</label>
-                      <select
-                        value={formData.courseInterest}
-                        onChange={(e) => setFormData({ ...formData, courseInterest: e.target.value })}
-                        className="w-full bg-[#060c18] border border-white/20 rounded-lg px-2 py-2 text-[11px] text-white focus:outline-none focus:border-amber-400"
-                      >
-                        <option value="SAP FICO (Financials)">SAP FICO (Finance)</option>
-                        <option value="SAP ABAP (Programming)">SAP ABAP (Coding)</option>
-                        <option value="SAP MM (Procurement)">SAP MM (Procurement)</option>
-                        <option value="SAP SD (Sales)">SAP SD (Sales)</option>
-                        <option value="SAP PP (Production)">SAP PP (Production)</option>
-                        <option value="Not Sure - Need Guidance in Webinar">Not Sure (Help Me Choose)</option>
-                      </select>
-                    </div>
-                  </div>
-
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-300 mb-0.5">Live Batch Slot</label>
+                    <label className="block text-[11px] font-bold text-slate-300 mb-0.5">Which SAP Module Interests You Most?</label>
                     <select
-                      value={formData.preferredSlot}
-                      onChange={(e) => setFormData({ ...formData, preferredSlot: e.target.value })}
-                      className="w-full bg-[#060c18] border border-white/20 rounded-lg px-2 py-2 text-[11px] text-white focus:outline-none focus:border-amber-400"
+                      value={formData.courseInterest}
+                      onChange={(e) => setFormData({ ...formData, courseInterest: e.target.value })}
+                      className="w-full bg-[#060c18] border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400"
                     >
-                      <option value="Saturday 7:00 PM IST (Evening Masterclass)">Saturday 7:00 PM IST (Evening Live)</option>
-                      <option value="Sunday 11:00 AM IST (Morning Masterclass)">Sunday 11:00 AM IST (Morning Live)</option>
+                      <option value="SAP FICO (Financials)">SAP FICO (Financial Accounting & Management Controlling)</option>
+                      <option value="SAP ABAP (Programming)">SAP ABAP on S/4HANA (Core Coding & Cloud RAP)</option>
+                      <option value="SAP MM (Procurement)">SAP MM (Materials Management & Supply Chain)</option>
+                      <option value="SAP SD (Sales)">SAP SD (Sales & Distribution / Order-to-Cash)</option>
+                      <option value="SAP PP (Production)">SAP PP (Production Planning & Manufacturing)</option>
+                      <option value="Not Sure - Need Guidance in Webinar">Not Sure — Need Live Mentor Guidance in Webinar</option>
                     </select>
                   </div>
 
@@ -857,8 +826,8 @@ export default function SapWebinarPage() {
               <div className="pt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-white/10">
                 <span className="text-[11px] text-slate-400">Need personal guidance? Ask our mentor during the live webinar.</span>
                 <button
-                  onClick={scrollToRegistration}
-                  className="bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs px-4 py-2.5 rounded-lg transition-transform hover:scale-105"
+                  onClick={() => openModalForm(track.title)}
+                  className="bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs px-4 py-2.5 rounded-lg transition-transform hover:scale-105 cursor-pointer"
                 >
                   Join Webinar &amp; Ask Mentor @ ₹9 →
                 </button>
@@ -914,8 +883,8 @@ export default function SapWebinarPage() {
               </div>
               <div className="lg:col-span-4 text-center lg:text-right">
                 <button
-                  onClick={scrollToRegistration}
-                  className="bg-purple-500 hover:bg-purple-400 text-white font-black text-xs px-5 py-3 rounded-xl shadow-md transition-transform hover:scale-105"
+                  onClick={() => openModalForm()}
+                  className="bg-purple-500 hover:bg-purple-400 text-white font-black text-xs px-5 py-3 rounded-xl shadow-md transition-transform hover:scale-105 cursor-pointer"
                 >
                   See Portfolio Demo @ ₹9 →
                 </button>
@@ -953,8 +922,8 @@ export default function SapWebinarPage() {
 
           <div className="text-center pt-2">
             <button
-              onClick={scrollToRegistration}
-              className="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-lg transition-transform hover:scale-105"
+              onClick={() => openModalForm()}
+              className="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-lg transition-transform hover:scale-105 cursor-pointer"
             >
               Reserve My ₹9 Seat For This Masterclass →
             </button>
@@ -1096,7 +1065,7 @@ export default function SapWebinarPage() {
 
           <div className="pt-2">
             <button
-              onClick={scrollToRegistration}
+              onClick={() => openModalForm()}
               className="w-full sm:w-auto bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm px-8 py-4 rounded-xl shadow-xl transition-transform hover:scale-105 cursor-pointer inline-flex items-center justify-center gap-2"
             >
               <span>👉 BOOK MY SLOT NOW FOR ₹9</span>
@@ -1131,7 +1100,7 @@ export default function SapWebinarPage() {
               <span className="hidden md:inline">WhatsApp Help</span>
             </a>
             <button
-              onClick={scrollToRegistration}
+              onClick={() => openModalForm()}
               className="bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs px-4 py-2 rounded-lg shadow-md transition-transform hover:scale-105 cursor-pointer flex items-center gap-1"
             >
               <span>Book Slot @ ₹9</span>
@@ -1174,6 +1143,141 @@ export default function SapWebinarPage() {
           </div>
         </div>
       </footer>
+
+      {/* ── MODAL REGISTRATION POPUP ── */}
+      {isModalOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsModalOpen(false);
+          }}
+        >
+          <div className="relative w-full max-w-md bg-gradient-to-b from-[#0d1a36] via-[#091326] to-[#060c18] border border-amber-400/50 rounded-2xl shadow-2xl p-5 sm:p-6 my-auto text-left">
+            {/* Close Button */}
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-sm"
+              aria-label="Close modal"
+            >
+              <FaTimes />
+            </button>
+
+            {/* Badge & Title */}
+            <div className="space-y-1.5 pr-8 mb-4">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-red-500/20 text-red-400 border border-red-500/30">
+                  <FaBolt className="text-red-400 text-[10px] animate-bounce" /> ₹999 VALUE — ONLY ₹9
+                </span>
+                <span className="text-[10px] font-bold text-amber-300">
+                  ⚡ 18 Slots Remaining
+                </span>
+              </div>
+              <h3 className="text-lg sm:text-xl font-black text-white leading-tight">
+                Reserve Your Live SAP Masterclass Seat
+              </h3>
+              <p className="text-[11px] text-slate-300">
+                Live interactive roadmap, real salary guides &amp; free ₹5,997 resource kit.
+              </p>
+            </div>
+
+            {/* Registration Form */}
+            <form onSubmit={handleSubmit} className="space-y-3">
+              {errorMessage && (
+                <div className="p-2.5 bg-red-500/20 border border-red-500/40 rounded-lg text-xs text-red-300 font-semibold">
+                  {errorMessage}
+                </div>
+              )}
+
+              <div>
+                <label className="block text-[11px] font-bold text-slate-300 mb-0.5">Full Name *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Rahul Sharma"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full bg-[#060c18] border border-white/20 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-slate-300 mb-0.5">WhatsApp Mobile Number *</label>
+                <div className="flex">
+                  <span className="inline-flex items-center px-2.5 rounded-l-lg border border-r-0 border-white/20 bg-[#060c18] text-slate-400 text-xs font-bold">+91</span>
+                  <input
+                    type="tel"
+                    required
+                    maxLength={10}
+                    placeholder="10-digit number"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, "") })}
+                    className="w-full bg-[#060c18] border border-white/20 rounded-r-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+                <span className="text-[9px] text-slate-400 mt-0.5 block">Meeting link will be sent via WhatsApp.</span>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-slate-300 mb-0.5">Email Address *</label>
+                <input
+                  type="email"
+                  required
+                  placeholder="rahul@example.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full bg-[#060c18] border border-white/20 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-slate-300 mb-0.5">Which SAP Module Interests You Most?</label>
+                <select
+                  value={formData.courseInterest}
+                  onChange={(e) => setFormData({ ...formData, courseInterest: e.target.value })}
+                  className="w-full bg-[#060c18] border border-white/20 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400"
+                >
+                  <option value="SAP FICO (Financials)">SAP FICO (Financial Accounting &amp; Management Controlling)</option>
+                  <option value="SAP ABAP (Programming)">SAP ABAP on S/4HANA (Core Coding &amp; Cloud RAP)</option>
+                  <option value="SAP MM (Procurement)">SAP MM (Materials Management &amp; Supply Chain)</option>
+                  <option value="SAP SD (Sales)">SAP SD (Sales &amp; Distribution / Order-to-Cash)</option>
+                  <option value="SAP PP (Production)">SAP PP (Production Planning &amp; Manufacturing)</option>
+                  <option value="Not Sure - Need Guidance in Webinar">Not Sure — Need Live Mentor Guidance in Webinar</option>
+                </select>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm py-3 rounded-lg shadow-lg transition-transform hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-1.5 mt-2"
+              >
+                {isSubmitting ? (
+                  <span>Reserving Your Seat...</span>
+                ) : (
+                  <>
+                    <span>Book My Webinar Slot for ₹9</span>
+                    <FaArrowRight className="text-xs" />
+                  </>
+                )}
+              </button>
+
+              <div className="flex items-center justify-center gap-2 text-[10px] text-slate-400 pt-0.5">
+                <span className="flex items-center gap-0.5"><FaLock className="text-emerald-400 text-[9px]" /> 100% Secure</span>
+                <span>•</span>
+                <span className="flex items-center gap-0.5"><FaCheckCircle className="text-amber-400 text-[9px]" /> Instant Confirmation</span>
+              </div>
+            </form>
+
+            <div className="mt-3 p-2 rounded-lg bg-amber-400/10 border border-amber-400/25 flex items-center gap-2">
+              <FaGift className="text-amber-400 text-base shrink-0" />
+              <div className="text-[10px] text-slate-300">
+                <strong className="text-amber-300">₹5,997 Bonus Bundle</strong> (T-Codes, 150+ Q&amp;A, Salary Guide) included free.
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
