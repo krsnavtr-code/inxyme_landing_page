@@ -117,29 +117,45 @@ exports.captureLead = async (req, res) => {
 };
 
 exports.getLeads = async (req, res) => {
-  const { subdomain } = req.query;
+  const { subdomain, search, limit = 50, offset = 0 } = req.query;
 
   try {
-    let query = "SELECT * FROM leads ORDER BY created_at DESC LIMIT 100";
+    let query = "SELECT * FROM leads WHERE 1=1";
     let params = [];
 
     if (subdomain) {
-      query =
-        "SELECT * FROM leads WHERE subdomain = ? ORDER BY created_at DESC LIMIT 100";
-      params = [subdomain.toLowerCase().trim()];
+      query += " AND subdomain = ?";
+      params.push(subdomain.toLowerCase().trim());
     }
+
+    if (search && search.trim()) {
+      query += " AND (name LIKE ? OR email LIKE ? OR phone LIKE ? OR program LIKE ? OR specialisation LIKE ?)";
+      const pattern = `%${search.trim()}%`;
+      params.push(pattern, pattern, pattern, pattern, pattern);
+    }
+
+    // Count query
+    let countQuery = query.replace("SELECT *", "SELECT COUNT(*) as total");
+    const [countRows] = await db.execute(countQuery, params);
+    const total = countRows[0]?.total || 0;
+
+    query += " ORDER BY created_at DESC LIMIT ? OFFSET ?";
+    params.push(parseInt(limit), parseInt(offset));
 
     const [rows] = await db.execute(query, params);
     return res.json({
       success: true,
       count: rows.length,
+      total,
       leads: rows,
+      data: rows,
     });
   } catch (error) {
     console.error("Fetch leads error:", error);
     return res.status(500).json({
       success: false,
       message: "Error fetching leads",
+      error: error.message,
     });
   }
 };

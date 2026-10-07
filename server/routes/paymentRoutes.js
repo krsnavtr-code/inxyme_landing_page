@@ -159,15 +159,29 @@ router.post("/payments/verify", async (req, res) => {
   });
 });
 
-// GET /api/payments - List all payments with pagination
+// GET /api/payments - List all payments with pagination & search
 router.get("/payments", async (req, res) => {
   try {
-    const { limit = 50, offset = 0 } = req.query;
-    const [rows] = await db.execute(
-      "SELECT * FROM payments ORDER BY created_at DESC LIMIT ? OFFSET ?",
-      [parseInt(limit), parseInt(offset)]
-    );
-    res.json({ success: true, count: rows.length, data: rows });
+    const { search, limit = 50, offset = 0 } = req.query;
+    let query = "SELECT * FROM payments WHERE 1=1";
+    let params = [];
+
+    if (search && search.trim()) {
+      query += " AND (name LIKE ? OR email LIKE ? OR phone LIKE ? OR payment_id LIKE ? OR order_id LIKE ?)";
+      const pattern = `%${search.trim()}%`;
+      params.push(pattern, pattern, pattern, pattern, pattern);
+    }
+
+    // Count query
+    let countQuery = query.replace("SELECT *", "SELECT COUNT(*) as total");
+    const [countRows] = await db.execute(countQuery, params);
+    const total = countRows[0]?.total || 0;
+
+    query += " ORDER BY created_at DESC LIMIT ? OFFSET ?";
+    params.push(parseInt(limit), parseInt(offset));
+
+    const [rows] = await db.execute(query, params);
+    res.json({ success: true, count: rows.length, total, data: rows });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

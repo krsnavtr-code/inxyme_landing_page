@@ -163,20 +163,31 @@ exports.markConverted = async (req, res) => {
  */
 exports.getPartialLeads = async (req, res) => {
   try {
-    const { converted, limit = 50, offset = 0 } = req.query;
+    const { converted, search, limit = 50, offset = 0 } = req.query;
     let query = "SELECT * FROM partial_leads WHERE 1=1";
     let params = [];
 
-    if (converted !== undefined) {
+    if (converted !== undefined && converted !== "") {
       query += " AND converted = ?";
       params.push(Number(converted));
     }
+
+    if (search && search.trim()) {
+      query += " AND (name LIKE ? OR email LIKE ? OR phone LIKE ? OR course_title LIKE ?)";
+      const pattern = `%${search.trim()}%`;
+      params.push(pattern, pattern, pattern, pattern);
+    }
+
+    // Count query
+    let countQuery = query.replace("SELECT *", "SELECT COUNT(*) as total");
+    const [countRows] = await db.execute(countQuery, params);
+    const total = countRows[0]?.total || 0;
 
     query += " ORDER BY updated_at DESC LIMIT ? OFFSET ?";
     params.push(parseInt(limit), parseInt(offset));
 
     const [rows] = await db.execute(query, params);
-    return res.json({ success: true, count: rows.length, data: rows });
+    return res.json({ success: true, count: rows.length, total, data: rows });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }

@@ -220,3 +220,90 @@ exports.lookupByFingerprint = async (req, res) => {
     return res.status(500).json({ success: false, message: err.message });
   }
 };
+
+/**
+ * Get all visitors with pagination and filters
+ */
+exports.getAllVisitors = async (req, res) => {
+  try {
+    const { search, returningOnly, isKnownLead, limit = 50, offset = 0 } = req.query;
+    let query = "SELECT * FROM visitors WHERE 1=1";
+    let params = [];
+
+    if (search && search.trim()) {
+      query += " AND (name LIKE ? OR email LIKE ? OR phone LIKE ? OR visitor_id LIKE ? OR ip_address LIKE ?)";
+      const pattern = `%${search.trim()}%`;
+      params.push(pattern, pattern, pattern, pattern, pattern);
+    }
+
+    if (returningOnly === "true" || returningOnly === "1") {
+      query += " AND total_visits > 1";
+    }
+
+    if (isKnownLead === "true" || isKnownLead === "1") {
+      query += " AND is_known_lead = 1";
+    }
+
+    // Count query
+    let countQuery = query.replace("SELECT *", "SELECT COUNT(*) as total");
+    const [countRows] = await db.execute(countQuery, params);
+    const total = countRows[0]?.total || 0;
+
+    query += " ORDER BY last_seen DESC LIMIT ? OFFSET ?";
+    params.push(parseInt(limit), parseInt(offset));
+
+    const [rows] = await db.execute(query, params);
+
+    return res.json({
+      success: true,
+      count: rows.length,
+      total,
+      data: rows,
+    });
+  } catch (err) {
+    console.error("Error fetching all visitors:", err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+/**
+ * Get all page views & course view logs
+ */
+exports.getPageViews = async (req, res) => {
+  try {
+    const { visitorId, course, limit = 50, offset = 0 } = req.query;
+    let query = "SELECT * FROM visitor_page_views WHERE 1=1";
+    let params = [];
+
+    if (visitorId) {
+      query += " AND visitor_id = ?";
+      params.push(visitorId);
+    }
+
+    if (course) {
+      query += " AND course_interest LIKE ?";
+      params.push(`%${course}%`);
+    }
+
+    // Total count
+    let countQuery = query.replace("SELECT *", "SELECT COUNT(*) as total");
+    const [countRows] = await db.execute(countQuery, params);
+    const total = countRows[0]?.total || 0;
+
+    query += " ORDER BY created_at DESC LIMIT ? OFFSET ?";
+    params.push(parseInt(limit), parseInt(offset));
+
+    const [rows] = await db.execute(query, params);
+
+    return res.json({
+      success: true,
+      count: rows.length,
+      total,
+      data: rows,
+    });
+  } catch (err) {
+    console.error("Error fetching page views:", err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+};
+

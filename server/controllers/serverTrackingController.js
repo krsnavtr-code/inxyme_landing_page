@@ -58,7 +58,7 @@ exports.logEvent = async (req, res) => {
  */
 exports.getLogs = async (req, res) => {
   try {
-    const { eventType, limit = 50, offset = 0 } = req.query;
+    const { eventType, search, limit = 50, offset = 0 } = req.query;
     let query = "SELECT * FROM server_tracking_logs WHERE 1=1";
     let params = [];
 
@@ -67,11 +67,22 @@ exports.getLogs = async (req, res) => {
       params.push(eventType);
     }
 
+    if (search && search.trim()) {
+      query += " AND (page_url LIKE ? OR visitor_id LIKE ? OR ip_address LIKE ? OR user_data LIKE ?)";
+      const pattern = `%${search.trim()}%`;
+      params.push(pattern, pattern, pattern, pattern);
+    }
+
+    // Count query
+    let countQuery = query.replace("SELECT *", "SELECT COUNT(*) as total");
+    const [countRows] = await db.execute(countQuery, params);
+    const total = countRows[0]?.total || 0;
+
     query += " ORDER BY created_at DESC LIMIT ? OFFSET ?";
     params.push(parseInt(limit), parseInt(offset));
 
     const [rows] = await db.execute(query, params);
-    return res.json({ success: true, count: rows.length, data: rows });
+    return res.json({ success: true, count: rows.length, total, data: rows });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }
