@@ -4,11 +4,11 @@ const router = express.Router();
 router.post("/payments/create-order", async (req, res) => {
   const { amount = 900, name, email, phone, course } = req.body;
   const razorpayKeyId =
-    process.env.RAZORPAY_KEY_ID || "rzp_live_TJDgLF2UiO13Pl";
+    process.env.RAZORPAY_KEY_ID;
   const razorpayKeySecret =
-    process.env.RAZORPAY_KEY_SECRET || "Uw148hiPHHyJyHsTSH1xFWIX";
+    process.env.RAZORPAY_KEY_SECRET;
   const websiteApiUrl =
-    process.env.INXYME_WEBSITE_API_URL || "https://www.inxyme.com/api";
+    process.env.INXYME_WEBSITE_API_URL;
 
   // 1. Try inxyme-website create-order
   try {
