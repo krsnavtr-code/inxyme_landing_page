@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import VisitorTracker from "../components/VisitorTracker";
+import CounselorChatBot from "../components/CounselorChatBot";
 import "./globals.css";
 
 const inter = Inter({
@@ -73,7 +74,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </Script>
         {/* End Google Tag Manager */}
 
-        {/* Tawk.to Script */}
+        {/* Tawk.to Script (Commented Out) */}
+        {/*
         <Script
           id="tawk-to"
           strategy="afterInteractive"
@@ -91,6 +93,7 @@ s0.parentNode.insertBefore(s1,s0);
 `,
           }}
         />
+        */}
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         {/* Google Tag Manager (noscript) */}
@@ -104,6 +107,7 @@ s0.parentNode.insertBefore(s1,s0);
         </noscript>
         {/* End Google Tag Manager (noscript) */}
         <VisitorTracker />
+        <CounselorChatBot />
         {children}
       </body>
     </html>
