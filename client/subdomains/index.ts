@@ -16,6 +16,10 @@ import AiMlPage from "./ai-ml/page";
 import AiMlThankYou from "./ai-ml/thank-you";
 import { metadata as aiMlMetadata } from "./ai-ml/metadata";
 
+import SapWebinarPage from "./sap-webinar/page";
+import SapWebinarThankYou from "./sap-webinar/thank-you";
+import { metadata as sapWebinarMetadata } from "./sap-webinar/metadata";
+
 export const SUBDOMAIN_REGISTRY: Record<string, SubdomainModule> = {
   sap: {
     Component: SapPage,
@@ -36,6 +40,11 @@ export const SUBDOMAIN_REGISTRY: Record<string, SubdomainModule> = {
     Component: AiMlPage,
     ThankYouComponent: AiMlThankYou,
     metadata: aiMlMetadata,
+  },
+  "sap-webinar": {
+    Component: SapWebinarPage,
+    ThankYouComponent: SapWebinarThankYou,
+    metadata: sapWebinarMetadata,
   },
 };
 
