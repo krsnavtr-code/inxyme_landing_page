@@ -5,5 +5,5 @@ import { metadata as sapWebinarMetadata } from "@/subdomains/sap-webinar/metadat
 export const metadata: Metadata = sapWebinarMetadata;
 
 export default function SapWebinarRoutePage() {
-  return <SapWebinarPage subdomain="sap-webinar" />;
+  return <SapWebinarPage />;
 }
