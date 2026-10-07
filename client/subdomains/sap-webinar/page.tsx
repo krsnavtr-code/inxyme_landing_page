@@ -325,42 +325,156 @@ export default function SapWebinarPage() {
     return () => clearInterval(timer);
   }, []);
 
+  const ensureRazorpayScript = (): Promise<boolean> => {
+    return new Promise((resolve) => {
+      if (typeof window === "undefined") return resolve(false);
+      if ((window as any).Razorpay) return resolve(true);
+
+      const existing = document.querySelector(
+        'script[src*="checkout.razorpay.com"]'
+      );
+      if (existing) {
+        existing.addEventListener("load", () => resolve(true));
+        existing.addEventListener("error", () => resolve(false));
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage("");
 
-    if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim()) {
+    const name = formData.name.trim();
+    const email = formData.email.trim();
+    const phone = formData.phone.trim().replace(/\D/g, "");
+
+    if (!name || !email || !phone) {
       setErrorMessage("Please fill all required fields.");
       return;
     }
 
-    if (formData.phone.trim().replace(/\D/g, "").length < 10) {
+    if (phone.length < 10) {
       setErrorMessage("Please enter a valid 10-digit mobile number.");
       return;
     }
 
     setIsSubmitting(true);
 
-    const payload = {
-      name: formData.name.trim(),
-      email: formData.email.trim(),
-      phone: formData.phone.trim(),
-      program: `Webinar: ${formData.courseInterest}`,
-      subdomain: "sap-webinar",
-      source: "sap-webinar-rs9-landing",
-      price: 9,
-    };
-
     try {
-      await fetch("/api/leads", {
+      // 1. Ensure Razorpay checkout script is available
+      const scriptReady = await ensureRazorpayScript();
+      if (!scriptReady && !(window as any).Razorpay) {
+        throw new Error(
+          "Payment gateway failed to load. Please check your internet connection."
+        );
+      }
+
+      // 2. Create ₹9 Order via Next.js API (amount in paise = 900)
+      const orderRes = await fetch("/api/payments/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          amount: 900,
+          name,
+          email,
+          phone,
+          course: formData.courseInterest,
+        }),
       });
-      router.push("/thank-you");
-    } catch {
-      router.push("/thank-you");
-    } finally {
+
+      const orderData = await orderRes.json();
+      if (!orderData.success || !orderData.order) {
+        throw new Error(
+          orderData.message || "Failed to initialize payment order."
+        );
+      }
+
+      const razorpayKey =
+        orderData.key ||
+        process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ||
+        "rzp_live_TJDgLF2UiO13Pl";
+
+      // 3. Open Razorpay Checkout modal
+      const options = {
+        key: razorpayKey,
+        amount: orderData.order.amount,
+        currency: orderData.order.currency || "INR",
+        name: "Inxyme E-Learning",
+        description: `₹9 SAP Career Masterclass - ${formData.courseInterest}`,
+        image: LOGO_SRC,
+        order_id: orderData.order.id,
+        prefill: {
+          name,
+          email,
+          contact: phone,
+        },
+        notes: {
+          course: formData.courseInterest,
+          source: "sap-webinar-rs9-landing",
+        },
+        theme: {
+          color: "#f59e0b",
+        },
+        modal: {
+          ondismiss: () => {
+            setIsSubmitting(false);
+            setErrorMessage(
+              "Payment window closed. Please complete the ₹9 payment to confirm your webinar seat."
+            );
+          },
+        },
+        handler: async (response: any) => {
+          setIsSubmitting(true);
+          try {
+            // 4. Verify payment, record in inxyme-website payment records, and capture lead in landing-page database
+            const verifyRes = await fetch("/api/payments/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                orderId: response.razorpay_order_id || orderData.order.id,
+                paymentId: response.razorpay_payment_id,
+                signature: response.razorpay_signature,
+                name,
+                email,
+                phone,
+                course: formData.courseInterest,
+                paymentAmount: 9,
+              }),
+            });
+
+            await verifyRes.json();
+            router.push("/thank-you");
+          } catch (err: any) {
+            console.error("Payment verification reporting notice:", err);
+            router.push("/thank-you");
+          } finally {
+            setIsSubmitting(false);
+          }
+        },
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.on("payment.failed", (resp: any) => {
+        setIsSubmitting(false);
+        setErrorMessage(
+          resp?.error?.description ||
+            "Payment failed. Please try again with UPI or card."
+        );
+      });
+      rzp.open();
+    } catch (err: any) {
+      console.error("Payment flow error:", err);
+      setErrorMessage(
+        err?.message || "Unable to launch payment gateway. Please try again."
+      );
       setIsSubmitting(false);
     }
   };
@@ -391,6 +505,10 @@ export default function SapWebinarPage() {
             gtag('config', 'AW-18473601189');
           `,
         }}
+      />
+      <Script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        strategy="afterInteractive"
       />
 
       {/* ── HEADER WRAPPER ── */}
@@ -664,22 +782,27 @@ export default function SapWebinarPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm py-3 rounded-lg shadow-lg transition-transform hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-1.5 mt-1"
+                    className="w-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm py-3.5 rounded-lg shadow-lg transition-transform hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-1.5 mt-1"
                   >
                     {isSubmitting ? (
-                      <span>Reserving Your Seat...</span>
+                      <span className="flex items-center gap-2">
+                        <span className="w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin inline-block" />
+                        Opening Payment Gateway (₹9)...
+                      </span>
                     ) : (
                       <>
-                        <span>Book My Webinar Slot for ₹9</span>
+                        <span>Pay ₹9 &amp; Book Webinar Slot</span>
                         <FaArrowRight className="text-xs" />
                       </>
                     )}
                   </button>
 
                   <div className="flex items-center justify-center gap-2 text-[10px] text-slate-400 pt-0.5">
-                    <span className="flex items-center gap-0.5"><FaLock className="text-emerald-400 text-[9px]" /> Secure</span>
+                    <span className="flex items-center gap-0.5"><FaLock className="text-emerald-400 text-[9px]" /> Razorpay Secured</span>
                     <span>•</span>
-                    <span className="flex items-center gap-0.5"><FaCheckCircle className="text-amber-400 text-[9px]" /> Instant Invite</span>
+                    <span className="flex items-center gap-0.5"><FaCheckCircle className="text-amber-400 text-[9px]" /> UPI / Cards</span>
+                    <span>•</span>
+                    <span className="flex items-center gap-0.5"><FaBolt className="text-red-400 text-[9px]" /> Instant Confirmation</span>
                   </div>
                 </form>
 
@@ -1250,22 +1373,27 @@ export default function SapWebinarPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm py-3 rounded-lg shadow-lg transition-transform hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-1.5 mt-2"
+                className="w-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm py-3.5 rounded-lg shadow-lg transition-transform hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-1.5 mt-2"
               >
                 {isSubmitting ? (
-                  <span>Reserving Your Seat...</span>
+                  <span className="flex items-center gap-2">
+                    <span className="w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin inline-block" />
+                    Opening Payment Gateway (₹9)...
+                  </span>
                 ) : (
                   <>
-                    <span>Book My Webinar Slot for ₹9</span>
+                    <span>Pay ₹9 &amp; Book Webinar Slot</span>
                     <FaArrowRight className="text-xs" />
                   </>
                 )}
               </button>
 
               <div className="flex items-center justify-center gap-2 text-[10px] text-slate-400 pt-0.5">
-                <span className="flex items-center gap-0.5"><FaLock className="text-emerald-400 text-[9px]" /> 100% Secure</span>
+                <span className="flex items-center gap-0.5"><FaLock className="text-emerald-400 text-[9px]" /> Razorpay Secured</span>
                 <span>•</span>
-                <span className="flex items-center gap-0.5"><FaCheckCircle className="text-amber-400 text-[9px]" /> Instant Confirmation</span>
+                <span className="flex items-center gap-0.5"><FaCheckCircle className="text-amber-400 text-[9px]" /> UPI / Cards</span>
+                <span>•</span>
+                <span className="flex items-center gap-0.5"><FaBolt className="text-red-400 text-[9px]" /> Instant Confirmation</span>
               </div>
             </form>
 

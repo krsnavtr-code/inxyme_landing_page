@@ -4,6 +4,7 @@ const cors = require("cors");
 const db = require("./config/db");
 const pageRoutes = require("./routes/pageRoutes");
 const leadRoutes = require("./routes/leadRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 const { verifySmtpConnection } = require("./services/mailService");
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json());
 // Routes
 app.use("/api", pageRoutes);
 app.use("/api", leadRoutes);
+app.use("/api", paymentRoutes);
 
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
