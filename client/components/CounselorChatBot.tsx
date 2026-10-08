@@ -263,7 +263,7 @@ export default function CounselorChatBot() {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 font-sans">
+    <div className="fixed bottom-20 right-5 z-50 font-sans">
       {/* Floating Nudge Bubble */}
       {!isOpen && showNudge && (
         <div
