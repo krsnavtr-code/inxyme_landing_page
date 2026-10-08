@@ -512,10 +512,18 @@ export default function SapWebinarPage() {
               phone,
             });
 
-            router.push("/thank-you");
+            if (typeof window !== "undefined") {
+              window.location.href = "/thank-you";
+            } else {
+              router.push("/thank-you");
+            }
           } catch (err: any) {
             console.error("Payment verification reporting notice:", err);
-            router.push("/thank-you");
+            if (typeof window !== "undefined") {
+              window.location.href = "/thank-you";
+            } else {
+              router.push("/thank-you");
+            }
           } finally {
             setIsSubmitting(false);
           }

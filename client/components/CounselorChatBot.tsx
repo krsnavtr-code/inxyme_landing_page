@@ -136,15 +136,15 @@ export default function CounselorChatBot() {
     return () => clearTimeout(timer);
   }, [hasInteracted]);
 
-  // Don't show on thank-you page
-  if (pathname && pathname.includes("/thank-you")) {
-    return null;
-  }
-
   // Auto-scroll messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
+
+  // Don't show on thank-you page
+  if (pathname && pathname.includes("/thank-you")) {
+    return null;
+  }
 
   // Handle first open
   const handleOpenChat = () => {
