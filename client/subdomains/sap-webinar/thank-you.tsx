@@ -191,13 +191,6 @@ export default function SapWebinarThankYou({
               <FaPhoneAlt className="text-xs text-amber-400" />
               <span>Call Helpline: +91 99909 99561</span>
             </a>
-            <Link
-              href="/sap-webinar"
-              className="inline-flex items-center gap-2 bg-transparent hover:bg-white/5 text-slate-400 hover:text-white font-medium text-xs sm:text-sm px-5 py-3.5 rounded-xl transition-colors"
-            >
-              <FaArrowLeft className="text-xs" />
-              <span>Back to Webinar</span>
-            </Link>
           </div>
         </div>
       </main>
