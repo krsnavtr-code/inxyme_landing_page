@@ -203,60 +203,93 @@ Key Knowledge:
 Student Name so far: ${updatedLead.name || "Unknown"}
 Student Phone so far: ${updatedLead.phone || "Not provided yet"}`;
 
-        // Attempt 1: Official @google/genai SDK
-        try {
-          const ai = new GoogleGenAI({ apiKey: geminiKey });
-          const response = await ai.models.generateContent({
-            model: "gemini-3.8-flash",
-            contents: `${systemPrompt}\n\nRecent context: ${JSON.stringify(history.slice(-3))}\n\nStudent says: "${message}"\nCounselor Reply:`,
-          });
+        // Attempt official @google/genai SDK with model fallback
+        const candidateModels = [
+          "gemini-3.8-flash",
+          "gemini-2.5-flash",
+          "gemini-1.5-flash",
+        ];
 
-          if (response && response.text && response.text.trim().length > 0) {
-            botReply = response.text.trim();
-            geminiSucceeded = true;
+        // Format history as standard user/model turns
+        const chatContents: Array<{ role: "user" | "model"; parts: Array<{ text: string }> }> = [];
+        
+        for (const item of history.slice(-6)) {
+          if (item && item.text) {
+            chatContents.push({
+              role: item.sender === "user" ? "user" : "model",
+              parts: [{ text: item.text }],
+            });
           }
-        } catch (sdkErr: any) {
-          // Attempt 2: REST fallback (gemini-flash-latest)
-          const conversationParts = [
-            { text: systemPrompt },
-            ...history.slice(-4).map((h: any) => ({
-              text: `${h.sender === "user" ? "Student" : "Counselor"}: ${h.text}`,
-            })),
-            { text: `Student: ${message}\nCounselor:` },
-          ];
+        }
+        chatContents.push({
+          role: "user",
+          parts: [{ text: message }],
+        });
 
-          const geminiRes = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "x-goog-api-key": geminiKey,
+        const ai = new GoogleGenAI({ apiKey: geminiKey });
+
+        for (const modelName of candidateModels) {
+          try {
+            const response = await ai.models.generateContent({
+              model: modelName,
+              contents: chatContents,
+              config: {
+                systemInstruction: systemPrompt,
+                maxOutputTokens: 300,
+                temperature: 0.7,
               },
-              body: JSON.stringify({
-                contents: [{ parts: conversationParts }],
-                generationConfig: {
-                  maxOutputTokens: 250,
-                  temperature: 0.7,
-                },
-              }),
-              signal: AbortSignal.timeout(5000),
-            }
-          );
+            });
 
-          if (geminiRes.ok) {
-            const geminiData = await geminiRes.json();
-            const generated =
-              geminiData?.candidates?.[0]?.content?.parts?.[0]?.text;
-            if (generated && generated.trim().length > 0) {
-              botReply = generated.trim();
+            if (response && response.text && response.text.trim().length > 0) {
+              botReply = response.text.trim();
               geminiSucceeded = true;
+              break;
             }
+          } catch (modelErr: any) {
+            console.warn(`[GEMINI SDK]: Model ${modelName} call failed:`, modelErr?.message || modelErr);
+          }
+        }
+
+        // REST fallback if SDK calls failed
+        if (!geminiSucceeded) {
+          try {
+            const restRes = await fetch(
+              `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${geminiKey}`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  systemInstruction: { parts: [{ text: systemPrompt }] },
+                  contents: chatContents,
+                  generationConfig: {
+                    maxOutputTokens: 300,
+                    temperature: 0.7,
+                  },
+                }),
+                signal: AbortSignal.timeout(6000),
+              }
+            );
+
+            if (restRes.ok) {
+              const restData = await restRes.json();
+              const generated = restData?.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (generated && generated.trim().length > 0) {
+                botReply = generated.trim();
+                geminiSucceeded = true;
+              }
+            } else {
+              const errBody = await restRes.text();
+              console.error("[GEMINI REST FAILED]:", restRes.status, errBody);
+            }
+          } catch (restErr: any) {
+            console.error("[GEMINI REST ERROR]:", restErr?.message || restErr);
           }
         }
       } catch (geminiErr: any) {
-        console.warn("Gemini call notice, activating Counselor Knowledge Engine:", geminiErr.message);
+        console.error("[GEMINI OVERALL ERROR]:", geminiErr?.message || geminiErr);
       }
+    } else {
+      console.warn("[GEMINI NOTICE]: No GEMINI_API_KEY found in process.env");
     }
 
     // 4. Intelligent Local Knowledge Engine (Smooth fallback with 100% reliability)
@@ -285,6 +318,7 @@ Student Phone so far: ${updatedLead.phone || "Not provided yet"}`;
       leadData: updatedLead,
       suggestions,
       hasContact: Boolean(updatedLead.phone || updatedLead.email),
+      isAiGenerated: geminiSucceeded,
     });
   } catch (err: any) {
     console.error("Chat counselor route error:", err);
