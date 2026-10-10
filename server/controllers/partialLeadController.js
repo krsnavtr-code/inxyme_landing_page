@@ -1,5 +1,6 @@
-const db = require("../config/db");
+﻿const db = require("../config/db");
 const { sendPartialLeadAlert } = require("../services/mailService");
+const { pushToGenlead } = require("../services/genleadService");
 
 /**
  * Capture or update partial form fills (onBlur auto-save / exit intent)
@@ -122,6 +123,21 @@ exports.capturePartialLead = async (req, res) => {
         }
       }).catch((e) => console.error("Mail alert error:", e.message));
     }
+    // Push partial lead in real-time to Genlead CRM
+    if (cleanPhone || cleanEmail) {
+      pushToGenlead({
+        name: cleanName,
+        email: cleanEmail,
+        phone: cleanPhone,
+        course: courseTitle || "Partial Lead",
+        source: source || "Landing Page",
+        lead_type: "Partial Form Lead",
+        is_partial: true,
+        landing_page: pageUrl || "",
+      }).catch((syncErr) => {
+        console.error("[GENLEAD PARTIAL SYNC ERROR]:", syncErr.message);
+      });
+    }
 
     return res.status(200).json({
       success: true,
@@ -192,3 +208,4 @@ exports.getPartialLeads = async (req, res) => {
     return res.status(500).json({ success: false, message: err.message });
   }
 };
+

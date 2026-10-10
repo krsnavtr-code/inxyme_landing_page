@@ -1,5 +1,6 @@
-const db = require("../config/db");
+﻿const db = require("../config/db");
 const { sendLeadNotificationToAdmin } = require("../services/mailService");
+const { pushToGenlead } = require("../services/genleadService");
 
 exports.captureLead = async (req, res) => {
   const {
@@ -100,6 +101,25 @@ exports.captureLead = async (req, res) => {
       timeSlot: cleanTimeSlot || null,
     }).catch((mailErr) => {
       console.error("[MAIL ASYNC ERROR]:", mailErr.message);
+    });
+    // 3. Push lead in real-time to Genlead CRM
+    pushToGenlead({
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      course: program || specialisation || qualification || cleanSubdomain || "Landing Page",
+      source: source || "Landing Page",
+      lead_type: "Landing Page Lead",
+      landing_page: req.headers.referer || "",
+      message: [
+        state ? `State: ${state.trim()}` : "",
+        cleanTimeSlot ? `Slot: ${cleanTimeSlot}` : "",
+        university ? `University: ${university.trim()}` : "",
+      ]
+        .filter(Boolean)
+        .join(" | "),
+    }).catch((syncErr) => {
+      console.error("[GENLEAD SYNC ASYNC ERROR]:", syncErr.message);
     });
 
     return res.status(201).json({
@@ -267,3 +287,4 @@ exports.syncLeads = async (req, res) => {
     });
   }
 };
+
