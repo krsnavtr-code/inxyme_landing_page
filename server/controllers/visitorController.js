@@ -1,4 +1,4 @@
-const db = require("../config/db");
+﻿const db = require("../config/db");
 
 /**
  * Track visitor navigation, returning visits, course views & device fingerprint
